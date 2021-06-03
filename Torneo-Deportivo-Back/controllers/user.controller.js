@@ -12,7 +12,7 @@ andmin();
 function andmin(req,res) {
     var user = new User();
 
-    User.findOne( {username: user.username = 'admin'},(err,userFind)=>{
+    User.findOne( {username: user.username = 'ADMIN'.toLocaleLowerCase()},(err,userFind)=>{
         if (err) {
             console.log('Error general')
         } else if(userFind){
@@ -23,7 +23,7 @@ function andmin(req,res) {
                     return res.status(500).send({message: ' Error General'});
                 } else if(passwordHash){                    
                     user.password = 'deportes123';
-                    user.username = 'admin';
+                    user.username = 'ADMIN'.toLocaleLowerCase();
                     user.role = 'ROLE_ADMIN';
                     user.password = passwordHash;
                     
