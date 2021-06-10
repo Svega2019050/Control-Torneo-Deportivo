@@ -7,7 +7,7 @@ var torneoRoutes = require('./routes/torneo.route');
 
 var app = express();
 
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {
@@ -20,5 +20,6 @@ app.use((req, res, next) => {
 
 app.use('/api', userRoutes);
 app.use('/api', torneoRoutes);
+
 
 module.exports = app;

@@ -6,8 +6,8 @@ const Schema = mongoose.Schema;
 var torneoSchema = Schema({
     name: String,
     dateInit: Date,
-    dateEnd: Date
-
+    dateEnd: Date,
+    league:[{type: Schema.ObjectId, ref: 'liga'}]
 });
 
 
