@@ -194,15 +194,20 @@ function updateUser(req, res) {
                         }
 
                     } else {
-                        User.findByIdAndUpdate(userId, update, { new: true }, (err, userUpdate) => {
-                            if (err) {
-                                return res.status(500).send({ message: 'Error General' });
-                            } else if (userUpdate) {
-                                return res.send({ message: 'Usuario Actualizado Correctamente', userUpdate });
-                            } else {
-                                return res.status(401).send({ message: 'No se pudo actualizar el usuario' });
-                            }
-                        });
+                        if (update.role == 'ROLE_ADMIN') {
+                            return res.status(401).send({ message: 'Un usuario Administrador, No puede ser editado por otro Administrador' });
+                        } else {
+                            User.findByIdAndUpdate(userId, update, { new: true }, (err, userUpdate) => {
+                                if (err) {
+                                    return res.status(500).send({ message: 'Error General' });
+                                } else if (userUpdate) {
+                                    return res.send({ message: 'Usuario Actualizado Correctamente', userUpdate });
+                                } else {
+                                    return res.status(401).send({ message: 'No se pudo actualizar el usuario' });
+                                }
+                            });
+                        }
+                        
                     }
                 })
             } else {
