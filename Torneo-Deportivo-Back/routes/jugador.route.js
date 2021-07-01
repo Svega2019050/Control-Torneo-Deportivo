@@ -6,9 +6,9 @@ const mdAuth = require('../middlewares/authenticated');
 
 var api = express.Router();
 
-api.put('/:equipoId/jugadorSave', [mdAuth.ensureAuth], equipoController.jugadorSave);
-api.put('/:equipoId/jugadorEliminar/:jugadorId', [mdAuth.ensureAuth], equipoController.jugadorEliminar);
-api.put('/:equipoId/jugadorUpdate/:jugadorId', [mdAuth.ensureAuth], equipoController.jugadorUpdate);
+api.put('/:equipoId/jugadorSave/:userId',equipoController.jugadorSave);
+api.put('/:userId/:equipoId/jugadorEliminar/:jugadorId', [mdAuth.ensureAuth], equipoController.jugadorEliminar);
+api.put('/:userId/:equipoId/jugadorUpdate/:jugadorId', [mdAuth.ensureAuth], equipoController.jugadorUpdate);
 
 
 module.exports = api;

@@ -7,6 +7,7 @@ var userModel = require("../models/user.model");
 /* save */
 function jugadorSave(req,res) {
     var equipoId = req.params.equipoId;
+    var userId = req.params.userId;
     var params = req.body;
     var jugador = new jugadorModel();
 
@@ -59,8 +60,6 @@ function jugadorSave(req,res) {
         });
     }
 
-
-
 }
 
 /* Update */
@@ -68,6 +67,7 @@ function jugadorUpdate(req,res) {
     var jugadorId = req.params.jugadorId;
     var equipoId = req.params.equipoId;
     var update = req.body;
+    var userId = req.params.userId;
 
     if (userId != req.user.sub) {
         return res.status(401).send({message: 'No tiene permiso para realizar esta acción '});
@@ -126,6 +126,7 @@ function jugadorUpdate(req,res) {
 function jugadorEliminar(req,res) {
     var jugadorId = req.params.jugadorId;
     var equipoId = req.params.equipoId;
+    var userId = req.params.userId;
 
     if (userId != req.user.sub) {
         return res.status(401).send({message: 'No tiene permiso para realizar esta acción '});

@@ -8,6 +8,7 @@ var userModel = require("../models/user.model");
 /* save */
 function equipoSave(req,res) {
     var torneoId = req.params.torneoId;
+    var userId = req.params.userId;
     var params = req.body;
     var equipo = new modelEquipo();
 
@@ -19,7 +20,7 @@ function equipoSave(req,res) {
                 return res.status(500).send({message: 'Error General',err});
             }else if(findTorneo) {
                 if (params.nameEquipo) {
-                    modelEquipo.findOne({nameEquipo: update.nameEquipo.toLowerCase()},(err,equipoFind)=>{
+                    modelEquipo.findOne({nameEquipo: params.nameEquipo.toLowerCase()},(err,equipoFind)=>{
                         if (err) {
                             return res.status(500).send({message: 'Error General',err});
                         }else if(equipoFind) {
@@ -66,6 +67,7 @@ function equipoUpdate(req,res) {
     var torneoId = req.params.torneoId;
     var equipoId = req.params.equipoId;
     var update = req.body;
+    var userId = req.params.userId;
 
     if (userId != req.user.sub) {
         return res.status(401).send({message: 'No tiene permiso para realizar esta acción '});
@@ -130,6 +132,7 @@ function equipoUpdate(req,res) {
 function equipoEliminar(req,res) {
     var torneoId = req.params.torneoId;
     var equipoId = req.params.equipoId;
+    var userId = req.params.userId;
 
     if (userId != req.user.sub) {
         return res.status(401).send({message: 'No tiene permiso para realizar esta acción '});
