@@ -4,6 +4,8 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var userRoutes = require('./routes/user.route');
 var torneoRoutes = require('./routes/torneo.route');
+var equipoRoute = require('./routes/equipo.route');
+var jugadorRoute = require('./routes/jugador.route');
 
 var app = express();
 
@@ -20,6 +22,8 @@ app.use((req, res, next) => {
 
 app.use('/api', userRoutes);
 app.use('/api', torneoRoutes);
+app.use('/api', equipoRoute);
+app.use('/api', jugadorRoute);
 
 
 module.exports = app;

@@ -7,7 +7,7 @@ var torneoSchema = Schema({
     name: String,
     dateInit: Date,
     dateEnd: Date,
-    league:[{type: Schema.ObjectId, ref: 'liga'}]
+    equipo:[{type: Schema.ObjectId, ref: 'equipo'}]
 });
 
 
