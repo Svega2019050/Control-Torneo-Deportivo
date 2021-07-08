@@ -2,6 +2,70 @@
 
 const torneoModel = require("../models/torneo.model");
 const userModel = require("../models/user.model");
+const fs = require('fs');
+const path = require('path');
+
+function uploadImageTorneo(req, res) {
+    var torneoId = req.params.torneoId;
+    var userId = req.params.userId;
+    var update = req.body;
+    var fileName;
+
+    if (userId != req.user.sub) {
+        return res.status(401).send({message: 'No tiene permiso para realizar esta acción '});
+    }else{
+        if (req.files) {
+            var filePath = req.files.imageTorneo.path;
+            var fileSplit = filePath.split('\\');
+            var fileName = fileSplit[2];
+    
+            var extension = fileName.split('\.');
+            var fileExt = extension[1];
+            if (fileExt == 'png' ||
+                fileExt == 'jpg' ||
+                fileExt == 'jpeg' ||
+                fileExt == 'gif') {
+                torneoModel.findByIdAndUpdate(torneoId, { imageTorneo: fileName }, { new: true }, (err, torneoUpdated) => {
+                    if (err) {
+                        res.status(500).send({ message: 'Error general' });
+                    } else if (torneoUpdated) {
+                        res.send({ torneo: torneoUpdated, torneoImage: torneoUpdated.imageTorneo });
+                    } else {
+                        res.status(400).send({ message: 'No se ha podido actualizar' });
+                    }
+                })
+            } else {
+                fs.unlink(filePath, (err) => {
+                    if (err) {
+                        res.status(500).send({ message: 'Extensión no válida y error al eliminar archivo' });
+                    } else {
+                        res.send({ message: 'Extensión no válida' })
+                    }
+                })
+            }
+        } else {
+            res.status(400).send({ message: 'No has enviado imagen a subir' })
+        }
+    }
+
+
+
+}
+
+/* view image */
+function getImageTorneo(req, res) {
+    var fileName = req.params.fileName;
+    var pathFile = './uploads/torneo/' + fileName;
+
+    fs.exists(pathFile, (exists) => {
+        if (exists) {
+            res.sendFile(path.resolve(pathFile));
+        } else {
+            res.status(404).send({ message: 'Imagen inexistente' });
+        }
+    })
+}
+
 
 /* Save Torneo*/
 function saveTorne(req, res) {
@@ -23,27 +87,32 @@ function saveTorne(req, res) {
                         } else if (torneoFind) {
                             return res.send({ message: 'Nombre de Torneo Ya En uso' });
                         } else {
-                            torneo.name = params.name.toLowerCase();
-                            torneo.dateInit = params.dateInit;
-                            torneo.dateEnd = params.dateEnd;
+                            if (params.name) {
+                                torneo.name = params.name.toLowerCase();
+                                torneo.dateInit = params.dateInit;
+                                torneo.dateEnd = params.dateEnd;
+    
+                                torneo.save((err, torneoSave) => {
+                                    if (err) {
+                                        return res.status(500).send({ message: 'Error General', err });
+                                    } else if (torneoSave) {
+                                        userModel.findByIdAndUpdate(userId, { $push: { torneo: torneoSave } }, { new: true }, (err, torneoPush) => {
+                                            if (err) {
+                                                return res.status(500).send({ message: 'Error General', err });
+                                            } else if (torneoPush) {
+                                                return res.send({ message: 'Torneo Guardado Con exito', torneoPush });
+                                            } else {
+                                                return res.status(401).send({ message: 'No se Pudo Guardar Torneo' });
+                                            }
+                                        }).populate('torneo');
+                                    } else {
+                                        return res.status(500).send({ message: 'Error al Guardar Torneo' });
+                                    }
+                                });
+                            } else {
+                                return res.status(401).send({message: 'Porfavor ingrese los datos necesarios para realizar esta petición'});
+                            }
 
-                            torneo.save((err, torneoSave) => {
-                                if (err) {
-                                    return res.status(500).send({ message: 'Error General', err });
-                                } else if (torneoSave) {
-                                    userModel.findByIdAndUpdate(userId, { $push: { torneo: torneoSave } }, { new: true }, (err, torneoPush) => {
-                                        if (err) {
-                                            return res.status(500).send({ message: 'Error General', err });
-                                        } else if (torneoPush) {
-                                            return res.send({ message: 'Torneo Guardado Con exito', torneoPush });
-                                        } else {
-                                            return res.status(401).send({ message: 'No se Pudo Guardar Torneo' });
-                                        }
-                                    }).populate('torneo');
-                                } else {
-                                    return res.status(500).send({ message: 'Error al Guardar Torneo' });
-                                }
-                            });
                         }
                     });
                 } else {
@@ -67,55 +136,60 @@ function updateTorneo(req, res) {
     if (userId != req.user.sub) {
         return res.status(401).send({ message: 'No tiene permiso para realizar esta acción ' });
     } else {
-        torneoModel.findById(torneoId, (err, torneoFind) => {
-            if (err) {
-                return res.status(500).send({ message: 'Error General', err });
-            } else if (torneoFind) {
-                userModel.findOne({ _id: userId, torneo: torneoId }, (err, userFind) => {
-                    if (err) {
-                        return res.status(500).send({ message: 'Error General', err });
-                    } else if (userFind) {
-                        update.name = update.name.toLowerCase();
-
-                        torneoModel.findOne({ name: update.name.toLowerCase() }, (err, torneoFindone) => {
-                            if (err) {
-                                return res.status(500).send({ message: 'Error General', err });
-                            } else if (torneoFindone) {
-                                if (torneoFindone._id == torneoId) {
+        if (update.name) {
+            torneoModel.findById(torneoId, (err, torneoFind) => {
+                if (err) {
+                    return res.status(500).send({ message: 'Error General', err });
+                } else if (torneoFind) {
+                    userModel.findOne({ _id:userId, torneo: torneoId }, (err, userFind) => {
+                        if (err) {
+                            return res.status(500).send({ message: 'Error General', err });
+                        } else if (userFind) {
+    
+                            update.name = update.name.toLowerCase();
+                            torneoModel.findOne({ name: update.name.toLowerCase() }, (err, torneoFindone) => {
+                                if (err) {
+                                    return res.status(500).send({ message: 'Error General', err });
+                                } else if (torneoFindone) {
+                                    if (torneoFindone._id == torneoId) {
+                                        torneoModel.findByIdAndUpdate(torneoId, update, { new: true }, (err, torneoUpdate) => {
+                                            if (err) {
+                                                return res.status(500).send({ message: 'Error General', err });
+                                            } else if (torneoUpdate) {
+    
+                                                return res.send({ message: 'Torneo Actualizado Correctamente', torneoUpdate });
+                                            } else {
+                                                return res.send({ message: 'No se pudo actualizar el Torneo' });
+                                            }
+                                        });
+                                    } else {
+                                        return res.status(401).send({ message: 'Nombre de Torneo ya en uso' });
+                                    }
+                                } else {
                                     torneoModel.findByIdAndUpdate(torneoId, update, { new: true }, (err, torneoUpdate) => {
                                         if (err) {
                                             return res.status(500).send({ message: 'Error General', err });
                                         } else if (torneoUpdate) {
-
+    
                                             return res.send({ message: 'Torneo Actualizado Correctamente', torneoUpdate });
                                         } else {
                                             return res.send({ message: 'No se pudo actualizar el Torneo' });
                                         }
                                     });
-                                } else {
-                                    return res.status(401).send({ message: 'Nombre de Torneo ya en uso' });
                                 }
-                            } else {
-                                torneoModel.findByIdAndUpdate(torneoId, update, { new: true }, (err, torneoUpdate) => {
-                                    if (err) {
-                                        return res.status(500).send({ message: 'Error General', err });
-                                    } else if (torneoUpdate) {
+                            });
+                        } else {
+                            return res.send({ message: 'No existe Usuario, o usuario no tiene torneos' });
+                        }
+                    });
+                } else {
+                    return res.send({ message: 'No existe Torneo' });
+                }
+            });
+        } else {
+            return res.status(401).send({message: 'Porfavor ingrese los datos necesarios para realizar esta petición'})
+        }
 
-                                        return res.send({ message: 'Torneo Actualizado Correctamente', torneoUpdate });
-                                    } else {
-                                        return res.send({ message: 'No se pudo actualizar el Torneo' });
-                                    }
-                                });
-                            }
-                        });
-                    } else {
-                        return res.send({ message: 'No existe Usuario' });
-                    }
-                });
-            } else {
-                return res.send({ message: 'No existe Torneo' });
-            }
-        });
     }
 
 }
@@ -180,5 +254,7 @@ module.exports = {
     saveTorne,
     updateTorneo,
     removeTorneo,
-    getTorneos
+    getTorneos,
+    uploadImageTorneo,
+    getImageTorneo
 };

@@ -38,43 +38,48 @@ function andmin(req, res) {
 }
 
 /* UploadImage */
-function uploadImage(req, res) {
+function uploadImageUser(req, res) {
     var userId = req.params.userId;
     var update = req.body;
     var fileName;
 
-    if (req.files) {
-        var filePath = req.files.image.path;
-        var fileSplit = filePath.split('\\');
-        var fileName = fileSplit[2];
-
-        var extension = fileName.split('\.');
-        var fileExt = extension[1];
-        if (fileExt == 'png' ||
-            fileExt == 'jpg' ||
-            fileExt == 'jpeg' ||
-            fileExt == 'gif') {
-            User.findByIdAndUpdate(userId, { image: fileName }, { new: true }, (err, userUpdated) => {
-                if (err) {
-                    res.status(500).send({ message: 'Error general' });
-                } else if (userUpdated) {
-                    res.send({ user: userUpdated, userImage: userUpdated.image });
-                } else {
-                    res.status(400).send({ message: 'No se ha podido actualizar' });
-                }
-            })
+    if (userId != req.user.sub) {
+        return res.status(401).send({message: 'No tiene permiso para realizar esta acción '});
+    }else{
+        if (req.files) {
+            var filePath = req.files.image.path;
+            var fileSplit = filePath.split('\\');
+            var fileName = fileSplit[2];
+    
+            var extension = fileName.split('\.');
+            var fileExt = extension[1];
+            if (fileExt == 'png' ||
+                fileExt == 'jpg' ||
+                fileExt == 'jpeg' ||
+                fileExt == 'gif') {
+                User.findByIdAndUpdate(userId, { image: fileName }, { new: true }, (err, userUpdated) => {
+                    if (err) {
+                        res.status(500).send({ message: 'Error general' });
+                    } else if (userUpdated) {
+                        res.send({ user: userUpdated, userImage: userUpdated.image });
+                    } else {
+                        res.status(400).send({ message: 'No se ha podido actualizar' });
+                    }
+                })
+            } else {
+                fs.unlink(filePath, (err) => {
+                    if (err) {
+                        res.status(500).send({ message: 'Extensión no válida y error al eliminar archivo' });
+                    } else {
+                        res.send({ message: 'Extensión no válida' })
+                    }
+                })
+            }
         } else {
-            fs.unlink(filePath, (err) => {
-                if (err) {
-                    res.status(500).send({ message: 'Extensión no válida y error al eliminar archivo' });
-                } else {
-                    res.send({ message: 'Extensión no válida' })
-                }
-            })
+            res.status(400).send({ message: 'No has enviado imagen a subir' })
         }
-    } else {
-        res.status(400).send({ message: 'No has enviado imagen a subir' })
     }
+
 
 }
 
@@ -171,7 +176,7 @@ function updateUser(req, res) {
         return res.status(401).send({ message: 'No tiene permiso para realizar esta acción ' });
     } else {
         if (update.password || update.role) {
-            return res.status(401).send({ message: 'No se puede actualizar la contraseña ni el rol' });
+            return res.status(401).send({ message: 'No se puede actualizar la contraseña, y tampoco el rol' });
         } else {
             if (update.username) {
                 User.findOne({ username: update.username.toLowerCase() }, (err, userFind) => {
@@ -194,20 +199,15 @@ function updateUser(req, res) {
                         }
 
                     } else {
-                        if (update.role == 'ROLE_ADMIN') {
-                            return res.status(401).send({ message: 'Un usuario Administrador, No puede ser editado por otro Administrador' });
-                        } else {
-                            User.findByIdAndUpdate(userId, update, { new: true }, (err, userUpdate) => {
-                                if (err) {
-                                    return res.status(500).send({ message: 'Error General' });
-                                } else if (userUpdate) {
-                                    return res.send({ message: 'Usuario Actualizado Correctamente', userUpdate });
-                                } else {
-                                    return res.status(401).send({ message: 'No se pudo actualizar el usuario' });
-                                }
-                            });
-                        }
-                        
+                        User.findByIdAndUpdate(userId, update, { new: true }, (err, userUpdate) => {
+                            if (err) {
+                                return res.status(500).send({ message: 'Error General' });
+                            } else if (userUpdate) {
+                                return res.send({ message: 'Usuario Actualizado Correctamente', userUpdate });
+                            } else {
+                                return res.status(401).send({ message: 'No se pudo actualizar el usuario' });
+                            }
+                        });
                     }
                 })
             } else {
@@ -343,7 +343,7 @@ module.exports = {
     search,
     getUsers,
     saveUserByAdmin,
-    uploadImage,
+    uploadImageUser,
     getImage,
     andmin
 

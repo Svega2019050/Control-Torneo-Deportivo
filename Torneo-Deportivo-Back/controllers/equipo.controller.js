@@ -26,25 +26,29 @@ function equipoSave(req,res) {
                         }else if(equipoFind) {
                             return res.send({message: 'Nombre de Equipo Ya existe'});
                         } else {
-                            equipo.nameEquipo = params.nameEquipo.toLowerCase();
-        
-                            equipo.save((err,equipoSaved)=>{
-                                if (err) {
-                                    return res.status(500).send({message: 'Error General',err});
-                                }else if(equipoSaved) {
-                                    torneoModel.findByIdAndUpdate(torneoId,{$push:{equipo:equipoSaved._id}},{new: true},(err,equipoPush)=>{
-                                        if (err) {
-                                            return res.status(500).send({message: 'Error General',err});
-                                        }else if(equipoPush) {
-                                            return res.send({message: 'Equipo Guardado Con exito',equipoPush});
-                                        } else {
-                                            return res.status(401).send({message: 'No se pudo Guardar Equipo'});
-                                        }
-                                    }).populate('equipo')
-                                } else {
-                                    return res.status(401).send({message: 'Error Al Guardar Equipo'});
-                                }
-                            });
+                            if (params.nameEquipo) {
+                                equipo.nameEquipo = params.nameEquipo.toLowerCase();
+                                equipo.save((err,equipoSaved)=>{
+                                    if (err) {
+                                        return res.status(500).send({message: 'Error General',err});
+                                    }else if(equipoSaved) {
+                                        torneoModel.findByIdAndUpdate(torneoId,{$push:{equipo:equipoSaved._id}},{new: true},(err,equipoPush)=>{
+                                            if (err) {
+                                                return res.status(500).send({message: 'Error General',err});
+                                            }else if(equipoPush) {
+                                                return res.send({message: 'Equipo Guardado Con exito',equipoPush});
+                                            } else {
+                                                return res.status(401).send({message: 'No se pudo Guardar Equipo'});
+                                            }
+                                        }).populate('equipo')
+                                    } else {
+                                        return res.status(401).send({message: 'Error Al Guardar Equipo'});
+                                    }
+                                });
+                            } else {
+                                return res.status(401).send({message: 'Porfavor ingrese los datos necesarios para realizar esta petición'})
+                            }
+
                         }
                         
                     });
@@ -81,13 +85,26 @@ function equipoUpdate(req,res) {
                         if (err) {
                             return res.status(500).send({message: 'Error General',err});
                         } else if(torneoFind){
-                            
-                            update.nameEquipo = update.nameEquipo.toLowerCase();
-                            modelEquipo.findOne({nameEquipo: update.nameEquipo.toLowerCase()},(err,equipoFind)=>{
-                                if (err) {
-                                    return res.status(500).send({message: 'Error General',err});
-                                }else if(equipoFind) {
-                                    if (equipoFind._id == equipoId) {
+                            if (update.nameEquipo) {
+                                update.nameEquipo = update.nameEquipo.toLowerCase();
+                                modelEquipo.findOne({nameEquipo: update.nameEquipo.toLowerCase()},(err,equipoFind)=>{
+                                    if (err) {
+                                        return res.status(500).send({message: 'Error General',err});
+                                    }else if(equipoFind) {
+                                        if (equipoFind._id == equipoId) {
+                                            modelEquipo.findByIdAndUpdate(equipoId, update, {new: true}, (err, equipoUpdate)=>{
+                                                if (err) {
+                                                    return res.status(500).send({message: 'Error General'});
+                                                } else if(equipoUpdate){
+                                                    return res.send({message: 'Equipo Actualizado Exitosamente',equipoUpdate});
+                                                }else{
+                                                    return res.status(401).send({message: 'No se puedo actualizar el Equipo'});
+                                                }
+                                            });
+                                        } else {
+                                            return res.status(401).send({message: 'Nombre de Equipo Ya en uso'});
+                                        }
+                                    } else {
                                         modelEquipo.findByIdAndUpdate(equipoId, update, {new: true}, (err, equipoUpdate)=>{
                                             if (err) {
                                                 return res.status(500).send({message: 'Error General'});
@@ -97,28 +114,19 @@ function equipoUpdate(req,res) {
                                                 return res.status(401).send({message: 'No se puedo actualizar el Equipo'});
                                             }
                                         });
-                                    } else {
-                                        return res.status(401).send({message: 'Nombre de Equipo Ya en uso'});
                                     }
-                                } else {
-                                    modelEquipo.findByIdAndUpdate(equipoId, update, {new: true}, (err, equipoUpdate)=>{
-                                        if (err) {
-                                            return res.status(500).send({message: 'Error General'});
-                                        } else if(equipoUpdate){
-                                            return res.send({message: 'Equipo Actualizado Exitosamente',equipoUpdate});
-                                        }else{
-                                            return res.status(401).send({message: 'No se puedo actualizar el Equipo'});
-                                        }
-                                    });
-                                }
-                            });
+                                });
+                            } else {
+                                return res.status(401).send({message: 'Porfavor ingrese los datos necesarios para realizar esta petición'})
+                            }
+
                             
                         }else{
                             return res.status(401).send({message: 'Torneo No existente'})
                         }
                     });
                 }else{
-                    return res.status(401).send({message:'Equipo No Existe'});
+                    return res.status(401).send({message:'Equipo No Existe en este torneo'});
                 }
             });
         } else {
@@ -156,7 +164,7 @@ function equipoEliminar(req,res) {
                                 }
                             });
                         }else {
-                            return res.status(401).send({message: 'Equipo No Encontrada'});
+                            return res.status(401).send({message: 'Equipo No Encontrada, En este Torneo'});
                         }
                     });
                 }else{

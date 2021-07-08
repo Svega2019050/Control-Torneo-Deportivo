@@ -24,8 +24,9 @@ function jugadorSave(req,res) {
                     }else if(jugadorFind) {
                         return res.send({message: 'Número de jugador Ya existe'});
                     } else {
-                        if (params.nameJugador) {
-                            jugador.nameJugador = params.nameJugador;
+                        if (params.nameJugador && params.numberJugador) {
+                            
+                            jugador.nameJugador = params.nameJugador.toLowerCase();
                             jugador.numberJugador = params.numberJugador;
             
                             jugador.save((err,jugadorSaved)=>{
@@ -80,12 +81,26 @@ function jugadorUpdate(req,res) {
                     if (err) {
                         return res.status(500).send({message: 'Error General',err});
                     } else if(equipoFind){
-
-                        jugadorModel.findOne({numberJugador: params.numberJugador},(err, jugadorFind)=>{
-                            if (err) {
-                                return res.status(500).send({message: 'Error General',err});
-                            }else if(jugadorFind) {
-                                if (jugadorFind._id = jugadorId) {
+                        if (update.nameJugador && update.numberJugador) {
+                            update.nameJugador = update.nameJugador.toLowerCase();
+                            jugadorModel.findOne({numberJugador: update.numberJugador},(err, jugadorFind)=>{
+                                if (err) {
+                                    return res.status(500).send({message: 'Error General',err});
+                                }else if(jugadorFind) {
+                                    if (jugadorFind._id == jugadorId) {
+                                        jugadorModel.findByIdAndUpdate(jugadorId, update, {new: true}, (err, equipoUpdate)=>{
+                                            if (err) {
+                                                return res.status(500).send({message: 'Error General'});
+                                            } else if(equipoUpdate){
+                                                return res.send({message: 'Jugador Actualizado Exitosamentes',equipoUpdate});
+                                            }else{
+                                                return res.status(401).send({message: 'No se puedo actualizar el jugador'});
+                                            }
+                                        });
+                                    } else {
+                                        return res.send({message: 'Número de Jugador Ya existe'});
+                                    }
+                                } else {
                                     jugadorModel.findByIdAndUpdate(jugadorId, update, {new: true}, (err, equipoUpdate)=>{
                                         if (err) {
                                             return res.status(500).send({message: 'Error General'});
@@ -94,24 +109,15 @@ function jugadorUpdate(req,res) {
                                         }else{
                                             return res.status(401).send({message: 'No se puedo actualizar el jugador'});
                                         }
-                                    });
-                                } else {
-                                    return res.send({message: 'Número de Jugador Ya existe'});
+                                    }); 
                                 }
-                            } else {
-                                jugadorModel.findByIdAndUpdate(jugadorId, update, {new: true}, (err, equipoUpdate)=>{
-                                    if (err) {
-                                        return res.status(500).send({message: 'Error General'});
-                                    } else if(equipoUpdate){
-                                        return res.send({message: 'Jugador Actualizado Exitosamente',equipoUpdate});
-                                    }else{
-                                        return res.status(401).send({message: 'No se puedo actualizar el jugador'});
-                                    }
-                                }); 
-                            }
-                        });
+                            });
+                        } else {
+                            return res.status(401).send({message: 'Porfavor ingrese los datos necesarios para realizar esta petición'});
+                        }
+
                     }else{
-                        return res.status(401).send({message: 'Equipo No existente'})
+                        return res.status(401).send({message: 'Equipo No existente, con este jugador'})
                     }
                 });
             }else{

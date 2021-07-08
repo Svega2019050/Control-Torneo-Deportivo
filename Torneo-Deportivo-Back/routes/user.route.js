@@ -22,7 +22,7 @@ api.get('/getImage/:fileName', [upload], userController.getImage);
 /* Put*/
 api.put('/updateUser/:userId', [mdAuth.ensureAuth], userController.updateUser);
 api.put('/removeUser/:userId', [mdAuth.ensureAuth], userController.removeUser);
-api.put('/:userId/uploadImage', [mdAuth.ensureAuth, upload], userController.uploadImage);
+api.put('/:userId/uploadImageUser', [mdAuth.ensureAuth, upload], userController.uploadImageUser);
 
 
 module.exports = api;
