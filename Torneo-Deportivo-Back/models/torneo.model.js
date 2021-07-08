@@ -8,7 +8,8 @@ var torneoSchema = Schema({
     dateInit: Date,
     dateEnd: Date,
     imageTorneo: String,
-    equipo:[{type: Schema.ObjectId, ref: 'equipo'}]
+    equipo:[{type: Schema.ObjectId, ref: 'equipo'}],
+    marcador:[{type: Schema.ObjectId, ref: 'marcador'}]
 });
 
 

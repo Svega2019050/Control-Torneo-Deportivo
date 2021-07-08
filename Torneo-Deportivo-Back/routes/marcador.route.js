@@ -6,6 +6,6 @@ var mdAuth = require('../middlewares/authenticated');
 
 var api = express.Router();
 
-
+api.put('/:torneoId/marcadorSave', marcadorController.marcadorSave);
 
 module.exports = api;
