@@ -2,7 +2,7 @@
 
 var express = require('express');
 var equipoController = require('../controllers/jugador.controller');
-const mdAuth = require('../middlewares/authenticated');
+var mdAuth = require('../middlewares/authenticated');
 
 var api = express.Router();
 
