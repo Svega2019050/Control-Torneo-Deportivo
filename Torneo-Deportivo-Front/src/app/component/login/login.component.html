@@ -1,0 +1,31 @@
+<div id="container">	
+
+    <div class="product-image">
+        <img src="../../../assets/img/login-deporte.jpg" alt="">
+        
+    </div>
+
+    <div class="product-details">
+            
+        <h1 class="text-color">Iniciar sesión</h1><br>
+        <form #login="ngForm" (ngSubmit)="onSubmit()">
+          
+            <div class="mb-3 text-color">
+              <label for="exampleInputEmail1" class="form-label"><i class="fas fa-user"></i> Usuario</label>
+              <input [(ngModel)]="user.username" name="username" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Usuario">
+            </div>
+
+            <div class="mb-3 text-color">
+              <label for="inputPassword"><i class="fas fa-unlock"></i> Contraseña</label>
+              <input [(ngModel)]="user.password" name="password" type="password" class="form-control" id="inputPassword" placeholder="Contraseña">
+            </div>
+
+            <button type="submit" class="btn btn-secondary"  [disabled]="!login.form.valid">Enviar</button>
+            
+          </form>
+
+          <h2><i class="far fa-copyright"></i> 2021</h2>
+                
+    </div>
+</div>
+

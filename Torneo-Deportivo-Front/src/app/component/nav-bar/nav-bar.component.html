@@ -1,0 +1,48 @@
+<nav class="navbar navbar-dark bg-dark navbar-expand-lg ">
+    <a class="navbar-brand titulo-principal " href="#">
+        <img src="../../../assets/img/icon.png" class="rounded-circle" alt=""> ControlTorneo
+    </a> 
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" >
+        <ul class="nav navbar-nav navbar-right ">
+          <!--Logeado-->
+          <li class="nav-item dropdown" *ngIf="token != null || token != undefined">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+            More options
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" routerLink="/editUser"><i class="fas fa-user-edit"></i> Editar Cuenta</a></li>
+            <li *ngIf="user.role == 'ROLE_ADMIN'"><a class="dropdown-item" routerLink="/saveUser"><i class="fas fa-user-plus"></i> Guardar Usuario</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" (click)="logOut()"><i class="fas fa-power-off"></i> Cerrar sesión</a></li>
+          </ul>
+          </li>
+
+          <li class="nav-item active hover-navbar">   
+            <a  class="nav-link" *ngIf="token != null || token != undefined" routerLink="/torneo" routerLinkActivate="active"><i class="fas fa-trophy"></i> Torneo</a>
+          </li>
+
+          <!-- Inicio-->
+
+          <li class="nav-item active hover-navbar">   
+            <a  class="nav-link" *ngIf="token == null" routerLink="/home" routerLinkActivate="active"><i class="fas fa-home"></i> Inicio</a>
+          </li>
+
+
+  
+          <li class="nav-item hover-navbar">
+            <a class="nav-link" *ngIf="token == null" routerLink="/register" routerLinkActivate="active"><i class="fas fa-address-book"></i> Registrarse</a>
+          </li>
+  
+          <li class="nav-item hover-navbar">
+              <a class="nav-link " *ngIf="token == null" routerLink="/login" routerLinkActivate="active"><i class="fas fa-user-alt"></i> Iniciar sesión</a>
+          </li>
+    
+            
+            
+        </ul>
+    </div>
+
+</nav>
