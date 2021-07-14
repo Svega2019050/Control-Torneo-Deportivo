@@ -21,6 +21,7 @@ const routes: Routes = [
   {path: 'torneo', component: TorneoComponent},
   {path: 'editUser', component:EditUserComponent},
 
+
   {path: 'not-Found', component: NotFoundComponent},
   {path: '**', component: NotFoundComponent}
 ];

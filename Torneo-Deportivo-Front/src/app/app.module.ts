@@ -22,6 +22,7 @@ import { UploadUserService } from './services/uploadUser/upload-user.service';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,7 +33,8 @@ import { UploadUserService } from './services/uploadUser/upload-user.service';
     NotFoundComponent,
     NosotrosComponent,
     TorneoComponent,
-    EditUserComponent
+    EditUserComponent,
+
   ],
   imports: [
     BrowserModule,

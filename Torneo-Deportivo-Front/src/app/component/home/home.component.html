@@ -57,30 +57,38 @@
     
     
    <!-- Button -->
-  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" *ngIf="token != null || token != undefined">
+  <button type="button" class="btn btn-success"  data-toggle="modal" data-target="#torneoModal" *ngIf="token != null || token != undefined">
     <i class="fas fa-trophy"></i> Crear Torneo
   </button>
 
   <!-- Modal New -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="torneoModal" tabindex="-1" role="dialog" aria-labelledby="torneoModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Nuevo Torneo</h5>
+          <h5 class="modal-title" id="torneoModalLabel">Nuevo Torneo</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          ...
+
+          <form (ngSubmit)="onSubmit(saveTorneo)" #saveTorneo="ngForm">
+            <div class="mb-3 text-color">
+              <label for="exampleInputEmail1" class="form-label"><i class="fas fa-trophy"></i> Nombre Torneo</label>
+              <input  [(ngModel)]="torneo.name" name="username" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nombre Torneo" required>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+              <input type="submit" class="btn btn-primary" value="Guardar Torneo" [disabled]="!saveTorneo.form.valid">
+            </div>
+          </form>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
+
       </div>
     </div>
   </div>
 
+  <app-torneo></app-torneo>
 
 </div>

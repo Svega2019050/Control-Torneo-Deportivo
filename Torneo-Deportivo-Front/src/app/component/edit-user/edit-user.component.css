@@ -3,6 +3,16 @@ h2{
 }
 
 .img{
-    height: 10%;
-    width: 15%;
+    
+    border: 5px solid rgb(0, 0, 0);
+    height: 20vh;
+    width: 20%;
+  
+}
+button{
+    margin-bottom: 1rem;
+}
+.ocultar{
+
+    padding: 1rem;
 }

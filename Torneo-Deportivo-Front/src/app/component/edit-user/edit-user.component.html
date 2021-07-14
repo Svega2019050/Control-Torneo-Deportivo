@@ -1,8 +1,9 @@
 <div class="rounded container p-3 my-3 border">
     <form class="form-signin text-center" #userUpdate="ngForm" (ngSubmit)="onSubmit()">
 
-        <div ng-hide="ocultar">
-            <img *ngIf="user.image" class="mb-4" width="72" height="72" src="{{uri+'getImage/'+user.image}}" />
+        <div class="ocultar ">
+            <img *ngIf="user.image" class="rounded-circle img" src="{{uri+'getImage/'+user.image}}" />
+            <h3 class="text-center ">{{user.name}} {{user.lastname}}</h3>
         </div>
                
 
@@ -44,39 +45,70 @@
         </div>
 
         <button type="submit" class="btn btn-success col-lg-3 mx-2" [disabled]="!userUpdate.form.valid">
-            Update
+            Actualizar
         </button>
-        <button type="button" class="btn btn-danger col-lg-3 mx-2" data-toggle="modal" data-target="#exampleModal">
-            Delete Account
+        <button type="button" class="btn btn-danger col-lg-3 mx-2" data-toggle="modal" data-target="#eliminarModal">
+            Eliminar Cuenta
         </button>
-        <button type="button" class="btn btn-primary col-lg-3 mx-2" data-toggle="modal" data-target="#myModal">
-            Upload Image
+        <button type="button" class="btn btn-primary col-lg-3 mx-2" data-toggle="modal" data-target="#cargarImgModal">
+            Cargar Imagen
         </button>
     </form>
 
-    <!-- MODAL PARA SUBIR IMAGEN DE USUARIO -->
-    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+    <!-- MODAL PARA ELIMINAR CUENTA -->
+    <div class="modal fade" id="eliminarModal" tabindex="-1" aria-labelledby="eliminarModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="myModalLabel">User image</h5>
+              <h5 class="modal-title" id="eliminarModalLabel">Peligro!</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body ">
+              <form #formRemove="ngForm">
+                <h5 class="text-center mb-3">{{user.email}}</h5>
+
+                <div class="form-group mx-sm-3 mb-2 ">
+                    <span>Estas Seguro de Eliminar Tú Cuenta</span>
+                    <label for="passwordRemove" ></label>
+                    <input  [(ngModel)]="possiblePass" name="possiblePass" type="password" class="form-control" id="possiblePass" aria-describedby="possiblePass" placeholder="Contraseña" required>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-danger " data-dismiss="modal" (click)="deleteUser()" [disabled]="!formRemove.form.valid">Confirmar</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <!-- MODAL PARA SUBIR IMAGEN -->
+    <div class="modal fade" id="cargarImgModal" tabindex="-1" aria-labelledby="cargarImgModalLabel" aria-hidden="true">
+        <div class="modal-dialog ">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="cargarImgModalLabel">Guardar Imagen de Usuario</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
-              <h3>Upload your image</h3>
+              <h3>Subir Imagen</h3>
               <form #formUpload="ngForm">
                 <label for="inputImage"></label>
-                <input type="file" name="image" id="inputImage" (change)="fileChange($event)" required>
+                <input type="file" name="image" id="inputImage" class="form-control" (change)="fileChange($event)" required>
               </form>
+
+              
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" data-dismiss="modal" class="btn btn-primary" (click)="uploadImage()">Upload</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+              <button type="button" data-dismiss="modal" class="btn btn-primary" (click)="uploadImage()">Cargar</button>
             </div>
           </div>
         </div>
-      </div>
+    </div>
 
 </div>

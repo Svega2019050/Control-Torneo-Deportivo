@@ -1,3 +1,9 @@
-<div class="rounded container p-3 my-3 border ">
-    <h1 class="titulo-principal">Torneo </h1>
+<div id="cards">
+    <div class="card imagen" *ngFor="let torneo of torneos">
+        <div class="card-body">
+          <h5 class="card-title text-center">{{torneo.name}}</h5>
+          <a class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" (click)="obtenerData(contact)">Update</a>
+          <a class="btn btn-danger mx-2" data-toggle="modal" data-target="#myModal" (click)="obtenerData(contact)">Remove</a>
+        </div>
+      </div>
 </div>

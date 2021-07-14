@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Merienda+One&display=swap');
 
+img{
+    max-width: 100%;
+}
+
 .titulo-principal{
     text-align: center;
     color: rgb(34, 34, 34);
@@ -83,7 +87,7 @@ img.alineadoTextoImagenAbajo{
 
 
 
-.text-color{
+.text-color ,h3{
     color: rgb(53, 153, 160);
 }
 

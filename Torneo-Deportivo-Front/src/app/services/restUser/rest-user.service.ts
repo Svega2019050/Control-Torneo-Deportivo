@@ -37,7 +37,7 @@ export class RestUserService {
   getUser(){
     let user = JSON.parse(localStorage.getItem('user'));
     if(user != undefined || user != null){
-      this.user = user
+      this.user = user;
     }else{
       this.user = null;
     }
@@ -48,6 +48,7 @@ export class RestUserService {
     let token = localStorage.getItem('token');
     if(token != undefined || token != null){
       this.token = token;
+      var xhr = new XMLHttpRequest();
     }else{
       this.token = null
     }

@@ -10,6 +10,7 @@ var api = express.Router();
 
 
 api.put('/:userId/saveTorne', [mdAuth.ensureAuth], torneoController.saveTorne);
+
 api.put('/:userId/updateTorneo/:torneoId', [mdAuth.ensureAuth], torneoController.updateTorneo);
 api.put('/:userId/removeTorneo/:torneoId', [mdAuth.ensureAuth], torneoController.removeTorneo);
 api.get('/getTorneos',torneoController.getTorneos);

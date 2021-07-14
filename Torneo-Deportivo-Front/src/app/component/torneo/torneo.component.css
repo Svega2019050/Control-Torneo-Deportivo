@@ -1,0 +1,18 @@
+#cards{
+    margin: 1rem;
+}
+
+.imagen{
+    background-image: url(../../../assets/img/torneo-default.jpg);
+    width: 95%;
+    max-width: 20rem;
+    display: inline-block;
+    margin: 1rem;
+    background-position: 50%;
+    background-size: cover;
+}
+
+
+.card-title{
+    font-family: 'Merienda One', cursive;
+}

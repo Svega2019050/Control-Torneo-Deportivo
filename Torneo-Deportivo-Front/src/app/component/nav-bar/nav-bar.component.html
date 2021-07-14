@@ -1,17 +1,20 @@
 <nav class="navbar navbar-dark bg-dark navbar-expand-lg ">
     <a class="navbar-brand titulo-principal " href="#">
-        <img src="../../../assets/img/icon.png" class="rounded-circle" alt=""> ControlTorneo
+        <img src="../../../assets/img/icon.png" class="rounded-circle img" alt=""> ControlTorneo
     </a> 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent" >
+    <div class="collapse navbar-collapse text-center" id="navbarSupportedContent" >
         <ul class="nav navbar-nav navbar-right ">
-          
+          <li class="nav-item active hover-navbar">   
+            <a  class="nav-link"  routerLink="/home" routerLinkActivate="active"><i class="fas fa-home"></i> Inicio</a>
+          </li>
+
           <!--Logeado-->
           <li class="nav-item dropdown" *ngIf="token != null || token != undefined">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
-            More options
+            Opciones
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item" routerLink="/editUser"><i class="fas fa-user-edit"></i> Editar Cuenta</a></li>
@@ -21,13 +24,10 @@
           </ul>
           </li>
 
+          <div >
+            <a class="text-color nav-link" routerLink="/editUser" *ngIf="token != null || token != undefined">{{user.username}} <img *ngIf="user.image" class="rounded-circle  " height="1" width="1" src="{{uri+'getImage/'+user.image}}" /> </a>
+          </div>
           <!-- Inicio-->
-
-          <li class="nav-item active hover-navbar">   
-            <a  class="nav-link" *ngIf="token == null" routerLink="/home" routerLinkActivate="active"><i class="fas fa-home"></i> Inicio</a>
-          </li>
-
-
   
           <li class="nav-item hover-navbar">
             <a class="nav-link" *ngIf="token == null" routerLink="/register" routerLinkActivate="active"><i class="fas fa-address-book"></i> Registrarse</a>
