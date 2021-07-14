@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,DoCheck} from '@angular/core';
 import { Router } from '@angular/router';
 import { CONNECTION } from 'src/app/services/globa.service';
 import { RestUserService } from '../../services/restUser/rest-user.service';
@@ -10,7 +10,7 @@ import {RestTorneoService} from '../../services/restTorneo/rest-torneo.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, DoCheck {
   
   torneo: Torneo;
   public filesToUpload:Array<File>;
@@ -41,8 +41,10 @@ export class HomeComponent implements OnInit {
         delete res.TorneoPush.password;
         this.user = res.TorneoPush;
         localStorage.setItem('user', JSON.stringify(this.user));
+        location.reload()
       }else{
         alert(res.message)
+        location.reload()
       }
     },
     error=> alert(error.error.message))

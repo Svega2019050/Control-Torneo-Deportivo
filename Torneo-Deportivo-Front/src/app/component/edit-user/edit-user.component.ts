@@ -38,10 +38,11 @@ export class EditUserComponent implements OnInit {
         delete res.userUpdated.password;
         localStorage.setItem('user', JSON.stringify(res.userUpdated));
         alert(res.message);
-        this.router.navigateByUrl('editUser');
+        location.reload()
       }else{     
         this.user = this.restUser.getUser();
-        this.router.navigateByUrl('editUser');         
+        this.router.navigateByUrl('editUser'); 
+        location.reload()        
         alert(res.message);
       }
     },

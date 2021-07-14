@@ -1,5 +1,6 @@
 <div class=" rounded container p-3 my-3 border">
-    <h1 class="titulo-principal">Control Torneo Deportivo</h1>
+    <h1 class="titulo-principal" *ngIf="token == null">Control Torneo Deportivo</h1>
+    <h1 class="titulo-principal" *ngIf="token != null || token != undefined">Torneos</h1>
 
     <div class="row" >
 

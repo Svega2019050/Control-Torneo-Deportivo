@@ -132,6 +132,7 @@ function updateTorneo(req, res) {
     var userId = req.params.userId;
     var torneoId = req.params.torneoId;
     var update = req.body;
+    var payload = req.user;
 
     if (userId != req.user.sub) {
         return res.status(401).send({ message: 'No tiene permiso para realizar esta acción ' });
@@ -179,7 +180,42 @@ function updateTorneo(req, res) {
                                 }
                             });
                         } else {
-                            return res.send({ message: 'No existe Usuario, o usuario no tiene torneos' });
+                            if (payload.role == 'ROLE_ADMIN') {
+                                update.name = update.name.toLowerCase();
+                                torneoModel.findOne({ name: update.name.toLowerCase() }, (err, torneoFindone) => {
+                                    if (err) {
+                                        return res.status(500).send({ message: 'Error General', err });
+                                    } else if (torneoFindone) {
+                                        if (torneoFindone._id == torneoId) {
+                                            torneoModel.findByIdAndUpdate(torneoId, update, { new: true }, (err, torneoUpdate) => {
+                                                if (err) {
+                                                    return res.status(500).send({ message: 'Error General', err });
+                                                } else if (torneoUpdate) {
+        
+                                                    return res.send({ message: 'Torneo Actualizado Correctamente', torneoUpdate });
+                                                } else {
+                                                    return res.send({ message: 'No se pudo actualizar el Torneo' });
+                                                }
+                                            });
+                                        } else {
+                                            return res.status(401).send({ message: 'Nombre de Torneo ya en uso' });
+                                        }
+                                    } else {
+                                        torneoModel.findByIdAndUpdate(torneoId, update, { new: true }, (err, torneoUpdate) => {
+                                            if (err) {
+                                                return res.status(500).send({ message: 'Error General', err });
+                                            } else if (torneoUpdate) {
+        
+                                                return res.send({ message: 'Torneo Actualizado Correctamente', torneoUpdate });
+                                            } else {
+                                                return res.send({ message: 'No se pudo actualizar el Torneo' });
+                                            }
+                                        });
+                                    }
+                                });
+                            } else {
+                                return res.send({ message: 'No tienes Permiso' });
+                            }
                         }
                     });
                 } else {
@@ -198,37 +234,80 @@ function updateTorneo(req, res) {
 function removeTorneo(req, res) {
     var torneoId = req.params.torneoId;
     var userId = req.params.userId;
+    var payload = req.user;
+
 
     if (userId != req.user.sub) {
         return res.status(401).send({ message: 'No tiene permiso para realizar esta acción ' });
     } else {
-        userModel.findByIdAndUpdate({ _id: userId, torneo: torneoId },
-            { $pull: { torneo: torneoId } }, { new: true }, (err, torneoPull) => {
-                if (err) {
-                    return res.status(500).send({ message: 'Error General', err });
-                } else if (torneoPull) {
-                    torneoModel.findOne({ _id: torneoId }, (err, torneoFind) => {
+        userModel.findOne({ _id:userId, torneo: torneoId }, (err, userFind) => {
+            if (err) {
+                return res.status(500).send({ message: 'Error General', err });
+            } else if (userFind) {
+                userModel.findByIdAndUpdate({ _id: userId, torneo: torneoId },
+                    { $pull: { torneo: torneoId } }, { new: true }, (err, torneoPull) => {
                         if (err) {
                             return res.status(500).send({ message: 'Error General', err });
-                        } else if (torneoFind) {
-                            torneoModel.findByIdAndRemove(torneoId, (err, torneoRemoved) => {
+                        } else if (torneoPull) {
+                            torneoModel.findOne({ _id: torneoId }, (err, torneoFind) => {
                                 if (err) {
-                                    return res.status(500).send({ message: 'Error general al eliminar' });
-                                } else if (torneoRemoved) {
-
-                                    return res.send({ message: 'Torneo eliminado', torneoRemoved });
+                                    return res.status(500).send({ message: 'Error General', err });
+                                } else if (torneoFind) {
+                                    torneoModel.findByIdAndRemove(torneoId, (err, torneoRemoved) => {
+                                        if (err) {
+                                            return res.status(500).send({ message: 'Error general al eliminar' });
+                                        } else if (torneoRemoved) {
+        
+                                            return res.send({ message: 'Torneo eliminado', torneoRemoved });
+                                        } else {
+                                            return res.status(403).send({ message: 'Torneo no eliminado' });
+                                        }
+                                    });
+        
                                 } else {
-                                    return res.status(403).send({ message: 'Torneo no eliminado' });
+                                    return res.status(401).send({ message: 'Torneo No Encontrado, o Eliminado' });
                                 }
                             });
-
                         } else {
-                            return res.status(401).send({ message: 'Torneo No Encontrado, o Eliminado' });
+                            return res.status(401).send({ message: 'No se pudo Eliminar' });
                         }
+                });
+            } else {
+                if (payload.role == 'ROLE_ADMIN') {
+                    userModel.findByIdAndUpdate({ _id: userId, torneo: torneoId },
+                        { $pull: { torneo: torneoId } }, { new: true }, (err, torneoPull) => {
+                            if (err) {
+                                return res.status(500).send({ message: 'Error General', err });
+                            } else if (torneoPull) {
+                                torneoModel.findOne({ _id: torneoId }, (err, torneoFind) => {
+                                    if (err) {
+                                        return res.status(500).send({ message: 'Error General', err });
+                                    } else if (torneoFind) {
+                                        torneoModel.findByIdAndRemove(torneoId, (err, torneoRemoved) => {
+                                            if (err) {
+                                                return res.status(500).send({ message: 'Error general al eliminar' });
+                                            } else if (torneoRemoved) {
+            
+                                                return res.send({ message: 'Torneo eliminado', torneoRemoved });
+                                            } else {
+                                                return res.status(403).send({ message: 'Torneo no eliminado' });
+                                            }
+                                        });
+            
+                                    } else {
+                                        return res.status(401).send({ message: 'Torneo No Encontrado, o Eliminado' });
+                                    }
+                                });
+                            } else {
+                                return res.status(401).send({ message: 'No se pudo Eliminar' });
+                            }
                     });
+                    
                 } else {
-                    return res.status(401).send({ message: 'No se pudo Eliminar' });
+                    return res.send({ message: 'No tienes Permiso' });
                 }
+                
+            }
         });
     }
 

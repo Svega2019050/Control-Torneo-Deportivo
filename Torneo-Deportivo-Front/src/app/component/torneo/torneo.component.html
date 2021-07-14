@@ -1,9 +1,65 @@
-<div id="cards">
-    <div class="card imagen" *ngFor="let torneo of torneos">
+<div id="cards" *ngIf="token != null || token != undefined">
+    <div class="card imagen text-center" *ngFor="let torneo of torneos">
         <div class="card-body">
           <h5 class="card-title text-center">{{torneo.name}}</h5>
-          <a class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" (click)="obtenerData(contact)">Update</a>
-          <a class="btn btn-danger mx-2" data-toggle="modal" data-target="#myModal" (click)="obtenerData(contact)">Remove</a>
+
+          <div class="button">
+            <a class="btn " data-toggle="modal" data-target="#updateModal" (click)="obtenerData(torneo)"><i class="far fa-edit"></i></a>
+            <a class="btn " data-toggle="modal" data-target="#removeModal" (click)="obtenerData(torneo)"><i class="far fa-trash-alt"></i></a>
+          </div>        
         </div>
-      </div>
+        <button type="button" class="btn btn-success mb-2" >
+            <i class="far fa-window-restore"></i> Ver
+        </button>
+    </div>
 </div>
+
+<!--Actualizar-->
+<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="updateModalLabel">Actualizar</h5>
+        <button type="button"   class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+        <div class="modal-body">
+
+            <form class="form-signin" #torneo="ngForm">
+                <div class="mb-3 text-color">
+                <label for="exampleInputEmail1" class="form-label"><i class="fas fa-trophy"></i> Nombre Torneo</label>
+                <input  [(ngModel)]="TorneoSelected.name" name="username" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nombre Torneo" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"  data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" [disabled]="!torneo.form.valid" (click)="updateTorneo()">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+
+<!--Eliminar-->
+<div class="modal fade" id="removeModal" tabindex="-1" aria-labelledby="removeModallLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="removeModallLabel">Peligro!</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <h4 class="text-center">{{TorneoSelected.name}}</h4>
+            <span>Estas Seguro De Eliminar Torneo</span>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="removeTorneo()">Eliminar</button>
+        </div>
+        </div>
+    </div>
+</div>
+

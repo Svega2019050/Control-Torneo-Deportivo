@@ -5,14 +5,33 @@
 .imagen{
     background-image: url(../../../assets/img/torneo-default.jpg);
     width: 95%;
-    max-width: 20rem;
+    max-width: 15rem;
     display: inline-block;
     margin: 1rem;
     background-position: 50%;
     background-size: cover;
+    
 }
 
 
 .card-title{
+    font-size: 1.5rem;
     font-family: 'Merienda One', cursive;
+    background-color: rgb(211, 211, 211);
+    border-radius: .5rem;
+    text-transform: uppercase;
+}
+a i{
+    background-color:rgb(211, 211, 211) ;
+    padding: 1rem;
+    font-size: 2rem;
+    border-radius: .5rem;
+}
+.button{
+    display: flex;
+    justify-content: space-between;
+}
+.mb-2{
+    font-size: 1rem;
+    padding: 0.5rem 2rem;
 }

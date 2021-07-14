@@ -177,10 +177,24 @@ function equipoEliminar(req,res) {
 
 
 }
+function getEquipo(req, res) {
+    var torneoId = req.params.torneoId;
+    var userId = req.params.userId;
 
+    modelEquipo.find({}).exec((err, equipos) => {
+        if (err) {
+            return res.status(500).send({ message: 'Error general en el servidor' })
+        } else if (equipos) {
+            return res.send({ message: 'torneos',equipos })
+        } else {
+            return res.status(404).send({ message: 'No hay torneos' })
+        }
+    })
+}
 
 module.exports = {
     equipoSave,
     equipoEliminar,
-    equipoUpdate
+    equipoUpdate,
+    getEquipo
 }

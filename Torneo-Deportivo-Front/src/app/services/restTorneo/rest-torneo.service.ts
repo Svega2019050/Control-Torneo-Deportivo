@@ -47,6 +47,25 @@ export class RestTorneoService {
     .pipe(map(this.extractData))
   }
 
+  updateTorneo(idUser, torneo){
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.restUser.getToken()
+    })
+    let params = JSON.stringify(torneo)
+    return this.http.put(this.uri+idUser+'/updateTorneo/'+torneo._id,params, {headers:headers})
+    .pipe(map(this.extractData))
+  }
+
+  removeTorneo(idUser, idTorne){
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.restUser.getToken()
+    })
+    return this.http.put(this.uri+idUser+'/removeTorneo/'+idTorne._id, null,{headers:headers})
+    .pipe(map(this.extractData))
+  }
+
   getTorneo(){
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
