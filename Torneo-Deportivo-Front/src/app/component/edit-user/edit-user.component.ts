@@ -16,6 +16,7 @@ export class EditUserComponent implements OnInit {
   public possiblePass;
   public filesToUpload:Array<File>;
   public uri:string;
+  userLogged;
 
   constructor(private restUser:RestUserService, 
               private router: Router,
@@ -28,18 +29,20 @@ export class EditUserComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  
   onSubmit(){
     delete this.user.password;
     delete this.user.role;
     this.restUser.updateUser(this.user).subscribe((res:any)=>{
       if(res.userUpdated){
         delete res.userUpdated.password;
-        sessionStorage.setItem('user', JSON.stringify(res.userUpdated));
+        localStorage.setItem('user', JSON.stringify(res.userUpdated));
         alert(res.message);
-      }else{
-        alert(res.message);
+        this.router.navigateByUrl('editUser');
+      }else{     
         this.user = this.restUser.getUser();
+        this.router.navigateByUrl('editUser');         
+        alert(res.message);
       }
     },
     error=> alert(error.error.message))

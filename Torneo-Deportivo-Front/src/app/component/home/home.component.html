@@ -1,9 +1,9 @@
-<div class=" rounded container p-3 my-3 border ">
+<div class=" rounded container p-3 my-3 border">
     <h1 class="titulo-principal">Control Torneo Deportivo</h1>
 
-    <div class="row">
+    <div class="row" >
 
-        <div class="col-sm-6 rounded" >
+        <div class="col-sm-6 rounded" *ngIf="token == null">
           <div class="card" >
             <a  class="nav-link" routerLink="/home" routerLinkActivate="active">
               <i class="fas fa-home"></i>
@@ -14,9 +14,9 @@
           </div>
         </div>
 
-        <div class="col-sm-6 rounded">
+        <div class="col-sm-6 rounded" *ngIf="token == null">
           <div class="card" >
-            <a  class="nav-link" routerLink="/register" routerLinkActivate="active">
+            <a  class="nav-link"routerLink="/register" routerLinkActivate="active">
               <i class="fas fa-address-book"></i>
               <div class="card-body">
                 <h5 class="card-title">Registrarse</h5>
@@ -29,9 +29,9 @@
 
     <div class="row">
 
-        <div class="col-sm-6 rounded">
+        <div class="col-sm-6 rounded" *ngIf="token == null">
           <div class="card" >
-            <a  class="nav-link" routerLink="/login" routerLinkActivate="active">
+            <a  class="nav-link"  routerLink="/login" routerLinkActivate="active">
               <i class="fas fa-user-alt"></i>
               <div class="card-body">
                 <h5 class="card-title">Iniciar sesión</h5>
@@ -41,7 +41,7 @@
 
         </div>
 
-        <div class="col-sm-6 rounded">
+        <div class="col-sm-6 rounded" *ngIf="token == null">
           <div class="card" >
             <a  class="nav-link" routerLink="/nosotros" routerLinkActivate="active">
               <i class="fas fa-address-card"></i>
@@ -53,4 +53,34 @@
         </div>
     </div>
       
+    <!--Torneo-->
+    
+    
+   <!-- Button -->
+  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" *ngIf="token != null || token != undefined">
+    <i class="fas fa-trophy"></i> Crear Torneo
+  </button>
+
+  <!-- Modal New -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Nuevo Torneo</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 </div>

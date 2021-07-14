@@ -7,6 +7,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent" >
         <ul class="nav navbar-nav navbar-right ">
+          
           <!--Logeado-->
           <li class="nav-item dropdown" *ngIf="token != null || token != undefined">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
@@ -18,10 +19,6 @@
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" (click)="logOut()"><i class="fas fa-power-off"></i> Cerrar sesión</a></li>
           </ul>
-          </li>
-
-          <li class="nav-item active hover-navbar">   
-            <a  class="nav-link" *ngIf="token != null || token != undefined" routerLink="/torneo" routerLinkActivate="active"><i class="fas fa-trophy"></i> Torneo</a>
           </li>
 
           <!-- Inicio-->

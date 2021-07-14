@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('token', this.token);
           localStorage.setItem('user', JSON.stringify(this.userLogged));
           alert('Usuario logeado correctamente');
-          this.route.navigateByUrl('torneo');
+          this.route.navigateByUrl('home');
         }
       }
     },

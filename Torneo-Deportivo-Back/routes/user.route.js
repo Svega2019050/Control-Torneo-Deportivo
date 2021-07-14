@@ -16,7 +16,7 @@ api.post('/search', userController.search);
 
 
 /* Get */
-api.get('/getUsers', [mdAuth.ensureAuth, mdAuth.ensureAuthAdmin], userController.getUsers);
+api.get('/getUser', [mdAuth.ensureAuth, mdAuth.ensureAuthAdmin], userController.getUser);
 api.get('/getImage/:fileName', [upload], userController.getImage);
 
 /* Put*/

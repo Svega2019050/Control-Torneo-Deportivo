@@ -323,7 +323,7 @@ function search(req, res) {
 
 }
 
-function getUsers(req, res) {
+function getUser(req, res) {
 
     User.find({}).populate('torneo').exec((err, users) => {
         if (err) {
@@ -343,7 +343,7 @@ module.exports = {
     updateUser,
     removeUser,
     search,
-    getUsers,
+    getUser,
     saveUserByAdmin,
     uploadImageUser,
     getImage,
