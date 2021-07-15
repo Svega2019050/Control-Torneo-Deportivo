@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/Torneo-Deportivo-Front",
+    "public": "./dist/Torneo-Deportivo-Front",
     "ignore": [
       "firebase.json",
       "**/.*",

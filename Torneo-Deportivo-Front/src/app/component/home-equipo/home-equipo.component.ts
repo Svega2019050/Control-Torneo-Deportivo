@@ -51,8 +51,11 @@ export class HomeEquipoComponent implements OnInit {
 
   }
   
-  obtenerData(equipo, marcador){
+  obtenerData(equipo){
     this.EquipoSelected = equipo;
+    console.log(this.EquipoSelected)
+  }
+  obtenerData2(marcador){
     this.MarcadorSelected = marcador;
   }
 
@@ -64,6 +67,7 @@ export class HomeEquipoComponent implements OnInit {
         form.reset();
         this.torneo = res.equipoPush;
         localStorage.setItem('torneo', JSON.stringify(this.torneo))
+        
         this.listEquipo();
       }else{
         alert(res.message)
@@ -72,6 +76,7 @@ export class HomeEquipoComponent implements OnInit {
     },
     error=> alert(error.error.message))
   }
+
 
   onSubmit2(form){
     let torneo = localStorage.getItem('selectedTorneo');
@@ -135,17 +140,23 @@ export class HomeEquipoComponent implements OnInit {
   updateEquipo(){
     this.restEquipo.updateEquipo(this.user._id, this.torneo, this.EquipoSelected).subscribe((res:any)=>{
       if (res.message) {
+
         alert(res.message);
-        localStorage.setItem('torneo', JSON.stringify(this.torneo))
-       
-      } else {
-        alert(res.message);    
+
+        this.torneo = res.message;
+
+        localStorage.setItem('torneo', JSON.stringify(res.message))
+
         this.torneo = this.restTorneo.getTorneo();
-        this.equipos = this.torneo.equipos;  
+        this.equipos = this.torneo.equipos;
+        
+      } else {
+        console.log(this.EquipoSelected)
         location.reload()
       }
     })
     error =>alert(error.error.message)
+    console.log(this.torneo)
   }
 
   saveEquipoJugador(equipo){

@@ -57,8 +57,8 @@ export class RestEquipoService {
       'Content-Type': 'application/json',
       'Authorization': this.restTorneo.getToken()
     })
-    let params = JSON.stringify(equipo);
-    return this.http.put(this.uri+ idUser +  '/equipoUpdate/'+ equipo._id  + '/'+ torneo._id, params,{headers:headers})
+    let params = JSON.stringify(equipo);   
+    return this.http.put(this.uri+idUser+ '/equipoUpdate/'+  equipo._id  + '/' + torneo._id, params,{headers:headers})
     .pipe(map(this.extractData))
   }
 

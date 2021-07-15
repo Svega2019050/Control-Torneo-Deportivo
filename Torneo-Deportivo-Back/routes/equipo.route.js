@@ -17,5 +17,6 @@ api.get('/getEquipo',equipoController.getEquipo);
 api.put('/:userId/uploadImageEquipo/:equipoId', [mdAuth.ensureAuth,upload], equipoController.uploadImageEquipo);
 api.get('/:userId/getimageEquipo/:fileName', [mdAuth.ensureAuth,upload], equipoController.getimageEquipo);
 
+api.get("/:userId/getEquipos/:torneoId", mdAuth.ensureAuth, equipoController.getEquipos);
 
 module.exports = api;

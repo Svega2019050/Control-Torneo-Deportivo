@@ -318,12 +318,20 @@ function removeTorneo(req, res) {
 function getTorneos(req, res) {
     var torneoId = req.params.torneoId;
     var userId = req.params.userId;
+    var params = req.body
+    var payload = req.user;
+
 
     torneoModel.find({}).exec((err, torneos) => {
         if (err) {
             return res.status(500).send({ message: 'Error general en el servidor' })
         } else if (torneos) {
-            return res.send({ message: 'torneos',torneos })
+            if (payload != null) {
+                return res.send({ message: 'NO hay torneos'})
+            }else{
+                return res.send({ message: 'torneos',torneos })
+            }
+            
         } else {
             return res.status(404).send({ message: 'No hay torneos' })
         }

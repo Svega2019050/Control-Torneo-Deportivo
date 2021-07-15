@@ -110,17 +110,17 @@
         </div>
             <div class="modal-body">
     
-                <form class="form-signin" #equipo="ngForm">
-                    <div class="mb-3 text-color">
-                    <label for="TorneoInput" class="form-label"><i class="fas fa-trophy"></i> Nombre Torneo</label>
-                    <input  [(ngModel)]="EquipoSelected.nameEquipo" name="nameEquipo" type="text" class="form-control" id="TorneoInput" aria-describedby="emailHelp" placeholder="Nombre Torneo" required>
-                    
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"  data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" [disabled]="!equipo.form.valid" (click)="updateEquipo()"  >Aceptar</button>                  
-                    </div>
-                </form>
+              <form class="form-signin" #equipo="ngForm">
+                <div class="mb-3 text-color">
+                <label for="nameinput" class="form-label"><i class="fas fa-trophy"></i> Nombre Equipo</label>
+                <input  [(ngModel)]="EquipoSelected.nameEquipo" name="nameEquipo" #nameEquipo="ngModel" type="text" class="form-control" id="nameinput" aria-describedby="nameEquipo" placeholder="Nombre Equipo" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"  data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" [disabled]="!equipo.form.valid" (click)="updateEquipo()"   >Aceptar</button>                  
+                </div>
+            </form>
+
             </div>
         </div>
     </div>
