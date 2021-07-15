@@ -2,7 +2,9 @@
     <form class="form-signin text-center" #userUpdate="ngForm" (ngSubmit)="onSubmit()">
 
         <div class="ocultar ">
-            <img *ngIf="user.image" class="rounded-circle img" src="{{uri+'getImage/'+user.image}}" />
+            <img *ngIf="user.image != null || user.image != undefined" class="rounded-circle img" src="{{uri+'getImage/'+user.image}}" />
+            <img *ngIf="user.image == null || user.image == undefined " class="rounded-circle img" src="../../../assets/img/editUserDefault.png" />
+            
             <h3 class="text-center ">{{user.name}} {{user.lastname}}</h3>
         </div>
                

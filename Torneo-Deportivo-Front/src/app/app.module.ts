@@ -19,6 +19,10 @@ import { EditUserComponent } from './component/edit-user/edit-user.component';
 /* Servicios */
 import { RestUserService } from './services/restUser/rest-user.service';
 import { UploadUserService } from './services/uploadUser/upload-user.service';
+import { HomeEquipoComponent } from './component/home-equipo/home-equipo.component';
+import { SaveUserAdminComponent } from './component/save-user-admin/save-user-admin.component';
+import { ListUserComponent } from './component/list-user/list-user.component';
+
 
 
 
@@ -34,6 +38,10 @@ import { UploadUserService } from './services/uploadUser/upload-user.service';
     NosotrosComponent,
     TorneoComponent,
     EditUserComponent,
+    HomeEquipoComponent,
+    SaveUserAdminComponent,
+    ListUserComponent,
+
 
   ],
   imports: [

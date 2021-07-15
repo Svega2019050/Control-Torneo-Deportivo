@@ -1,0 +1,60 @@
+<div class="rounded container p-3 my-3 borderr">
+
+    <div id="cards" >
+
+        <div class="card imagen text-center" *ngFor="let user of users ">
+
+            <img *ngIf="user.image != null || user.image != undefined" class=" img" src="{{uri+'getImage/'+user.image}}" />
+            <img *ngIf="user.image == null " class="img" src="../../../assets/img/editUserDefault.png" />
+
+            <div class="card-body">
+                
+                <h5 class="card-title text-center">{{user.username}}</h5>
+
+                <div class="button">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#eliminrModal">
+                        Eliminar 
+                    </button>
+
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#elimnarModal">
+                        Editar 
+                    </button>         
+                </div>        
+            </div>
+    
+        </div>
+    
+    </div>
+    
+    <!-- MODAL PARA ELIMINAR CUENTA -->
+    <div class="modal fade" id="eliminarModal" tabindex="-1" aria-labelledby="eliminarModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="eliminarModalLabel">Peligro!</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body ">
+              <form #formRemove="ngForm">
+                <h5 class="text-center mb-3">{{user.email}}</h5>
+
+                <div class="form-group mx-sm-3 mb-2 ">
+                    <span>Estas Seguro de Eliminar Tú Cuenta</span>
+                    <label for="passwordRemove" ></label>
+                    <input  [(ngModel)]="possiblePass" name="possiblePass" type="password" class="form-control" id="possiblePass" aria-describedby="possiblePass" placeholder="Contraseña" required>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-danger " data-dismiss="modal" (click)="deleteUser()" [disabled]="!formRemove.form.valid">Confirmar</button>
+            </div>
+          </div>
+        </div>
+    </div>
+    
+</div>
+
+

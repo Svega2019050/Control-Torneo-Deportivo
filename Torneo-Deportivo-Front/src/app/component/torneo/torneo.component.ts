@@ -2,7 +2,7 @@ import { Component, OnInit ,DoCheck} from '@angular/core';
 import { Router } from '@angular/router';
 import { CONNECTION } from 'src/app/services/globa.service';
 import { RestUserService } from '../../services/restUser/rest-user.service';
-
+import { UploadTorneoService } from '../../services/uploadTorneo/upload-torneo.service';
 import { Torneo } from '../../models/torneo';
 import {RestTorneoService} from '../../services/restTorneo/rest-torneo.service';
 
@@ -14,21 +14,19 @@ import {RestTorneoService} from '../../services/restTorneo/rest-torneo.service';
 export class TorneoComponent implements OnInit,DoCheck {
   torneos:[];
   public TorneoSelected: Torneo;
+  torneo;
+
   public filesToUpload:Array<File>;
-  token: String;
+  token;
   user;
   uri;
 
   constructor(private router: Router, private restUser:RestUserService,
-    private restTorneo:RestTorneoService) { 
-  }
+    private restTorneo:RestTorneoService, private uploadTorneo: UploadTorneoService) { }
 
   ngOnInit(): void {
     this.TorneoSelected = new Torneo('','','',[],[]);
-    this.user = this.restUser.getUser();
-    this.torneos = this.user.torneos;
-    this.token = localStorage.getItem('token');
-    this.user = JSON.parse(localStorage.getItem('user'));
+    localStorage.removeItem('selectedTorneo');
     this.uri = CONNECTION.URI;
     this.listTorneo();
   }
@@ -48,7 +46,6 @@ export class TorneoComponent implements OnInit,DoCheck {
     this.restTorneo.getTorneo().subscribe((res:any)=>{
       if(res.torneos){
         this.torneos = res.torneos;
-        console.log(this.torneos)
       }else{
         
       }
@@ -61,7 +58,7 @@ export class TorneoComponent implements OnInit,DoCheck {
       if (res.message) {
         alert(res.message);
         localStorage.setItem('user',JSON.stringify(this.user));
-        location.reload();
+       
       } else {
         alert(res.message);    
         this.user = this.restUser.getUser();
@@ -85,6 +82,32 @@ export class TorneoComponent implements OnInit,DoCheck {
       this.listTorneo();
     })
     error => alert(error.error.message)
+  }
+
+  
+  uploadImage(){
+    this.uploadTorneo.fileRequest(this.user._id, this.torneo._id, [], this.filesToUpload, this.token, 'image')
+      .then((res:any)=>{
+        if(res.user){
+          this.user.image = res.userImage;
+          localStorage.setItem('user', JSON.stringify(this.user));
+        }else{
+          alert(res.message)
+        }
+      })
+  }
+
+
+  fileChange(fileInput){
+    this.filesToUpload = <Array<File>>fileInput.target.files;
+    console.log(this.filesToUpload)
+  }
+
+  saveTorneoEquipo(torneo){
+    localStorage.setItem('selectedTorneo',JSON.stringify(torneo));
+    
+    console.log("torneo", torneo);
+    // para ingresar torneo en el local storage
   }
 
 }

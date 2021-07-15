@@ -1,64 +1,39 @@
 <div class=" rounded container p-3 my-3 border">
-    <h1 class="titulo-principal" *ngIf="token == null">Control Torneo Deportivo</h1>
-    <h1 class="titulo-principal" *ngIf="token != null || token != undefined">Torneos</h1>
+  <h1 class="titulo-principal" *ngIf="token == null">Control Torneo Deportivo</h1>
+  <h1 class="titulo-principal" *ngIf="token != null || token != undefined">Torneos</h1>
+  
+  <div class="cards-list">
 
-    <div class="row" >
-
-        <div class="col-sm-6 rounded" *ngIf="token == null">
-          <div class="card" >
-            <a  class="nav-link" routerLink="/home" routerLinkActivate="active">
-              <i class="fas fa-home"></i>
-              <div class="card-body">
-                <h5 class="card-title">Inicio</h5>
-              </div>
-            </a>
-          </div>
-        </div>
-
-        <div class="col-sm-6 rounded" *ngIf="token == null">
-          <div class="card" >
-            <a  class="nav-link"routerLink="/register" routerLinkActivate="active">
-              <i class="fas fa-address-book"></i>
-              <div class="card-body">
-                <h5 class="card-title">Registrarse</h5>
-              </div>
-            </a>
-          </div>        
-        </div>
-
-    </div>
-
-    <div class="row">
-
-        <div class="col-sm-6 rounded" *ngIf="token == null">
-          <div class="card" >
-            <a  class="nav-link"  routerLink="/login" routerLinkActivate="active">
-              <i class="fas fa-user-alt"></i>
-              <div class="card-body">
-                <h5 class="card-title">Iniciar sesión</h5>
-              </div>
-            </a>
-          </div>  
-
-        </div>
-
-        <div class="col-sm-6 rounded" *ngIf="token == null">
-          <div class="card" >
-            <a  class="nav-link" routerLink="/nosotros" routerLinkActivate="active">
-              <i class="fas fa-address-card"></i>
-              <div class="card-body">
-                <h5 class="card-title">Nosotros</h5>
-              </div>
-            </a>
-          </div>  
-        </div>
+    <div class="card 3" routerLink="/home" routerLinkActivate="active" *ngIf="token == null">
+      <div class="card_image">
+        <img src="../../../assets/img/home.gif" />
+      </div>
+      <div class="card_title">
+        <p>Inicio</p>
+      </div>
     </div>
       
-    <!--Torneo-->
+    <div class="card 1" routerLink="/register" routerLinkActivate="active" *ngIf="token == null">
+      <div class="card_image"> <img src="../../../assets/img/login-register.jpg" /> </div>
+      <div class="card_title title-white">
+        <p>Registrarse</p> 
+      </div>
+    </div>
     
+    <div class="card 2" routerLink="/login" routerLinkActivate="active" *ngIf="token == null">
+      <div class="card_image">
+        <img src="../../../assets/img/login-deporte.jpg" />
+        </div>
+      <div class="card_title title-white">
+        <p>Iniciar sesión</p>     
+      </div>
+    </div>
     
-   <!-- Button -->
-  <button type="button" class="btn btn-success"  data-toggle="modal" data-target="#torneoModal" *ngIf="token != null || token != undefined">
+  </div>
+      
+  <!--Torneo-->
+       
+  <button type="button" class="btn btn-success raise"  data-toggle="modal" data-target="#torneoModal" *ngIf="token != null || token != undefined">
     <i class="fas fa-trophy"></i> Crear Torneo
   </button>
 

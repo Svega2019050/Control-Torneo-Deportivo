@@ -8,7 +8,10 @@ import { NosotrosComponent } from './component/nosotros/nosotros.component';
 import { NotFoundComponent } from './component/not-found/not-found.component';
 import { RegisterComponent } from './component/register/register.component';
 import { TorneoComponent } from './component/torneo/torneo.component';
+import { HomeEquipoComponent } from './component/home-equipo/home-equipo.component';
 import { AdminGuard } from './guards/admin.guard';
+import { SaveUserAdminComponent } from './component/save-user-admin/save-user-admin.component';
+import { ListUserComponent } from './component/list-user/list-user.component';
 
 
 const routes: Routes = [
@@ -20,7 +23,9 @@ const routes: Routes = [
   {path: 'nosotros', component: NosotrosComponent},
   {path: 'torneo', component: TorneoComponent},
   {path: 'editUser', component:EditUserComponent},
-
+  {path: 'homeEquipo', component:HomeEquipoComponent},
+  {path: 'saveUserAdmin', canActivate: [AdminGuard], component:SaveUserAdminComponent},
+  {path: 'listUsers', canActivate:[AdminGuard], component: ListUserComponent},
 
   {path: 'not-Found', component: NotFoundComponent},
   {path: '**', component: NotFoundComponent}

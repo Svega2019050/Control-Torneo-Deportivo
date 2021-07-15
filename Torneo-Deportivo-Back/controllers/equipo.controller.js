@@ -181,6 +181,7 @@ function getEquipo(req, res) {
     var torneoId = req.params.torneoId;
     var userId = req.params.userId;
 
+    
     modelEquipo.find({}).exec((err, equipos) => {
         if (err) {
             return res.status(500).send({ message: 'Error general en el servidor' })
@@ -190,6 +191,8 @@ function getEquipo(req, res) {
             return res.status(404).send({ message: 'No hay torneos' })
         }
     })
+
+    
 }
 
 module.exports = {

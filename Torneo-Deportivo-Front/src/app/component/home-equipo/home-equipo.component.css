@@ -1,0 +1,54 @@
+.raise:hover,
+.raise:focus {
+  box-shadow: 5px 10px rgb(64, 72, 69);
+  transform: translateY(-0.25em);
+}
+
+.raise{
+    margin-left: 1rem;
+}
+.titulo-principal{
+  text-transform: uppercase;
+}
+
+#cards{
+  margin: 1rem;
+}
+
+
+.imagen{
+  background-color: rgb(182, 226, 150);
+  width: 100%;
+  max-width: 15rem;
+  display: inline-block;
+  margin: 1rem;  
+  background-size: cover;
+  border-radius: 1rem;
+  
+}
+
+.img{
+  border-radius: 1rem 1rem 0 0;
+}
+
+.card-title{
+  font-size: 1.5rem;
+  font-family: 'Merienda One', cursive;
+  border-radius: .5rem;
+  padding: 0.3rem;
+  text-transform: uppercase;
+}
+a i{
+
+  padding: 1rem;
+  font-size: 2rem;
+  border-radius: .5rem;
+}
+.button{
+  display: flex;
+  justify-content: space-between;
+}
+.mb-2{
+  font-size: 1rem;
+  padding: 0.5rem 2rem;
+}

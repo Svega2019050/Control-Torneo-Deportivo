@@ -95,5 +95,10 @@ export class RestUserService {
     .pipe(map(this.extractData))
   }
 
+  getUsers(){
+    return this.http.get(this.uri+'getUser', this.httpOptionsAuth)
+    .pipe(map(this.extractData))
+  }
+
 
 }

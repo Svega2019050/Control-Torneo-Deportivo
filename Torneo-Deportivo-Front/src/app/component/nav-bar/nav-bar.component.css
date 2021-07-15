@@ -1,11 +1,12 @@
-nav a .img{
+nav a span .img{
     width: 4rem;
     height: 4rem;
+    border: 1px solid black ;
+    border-radius: 1.7rem;
 }
 ul{
     align-items: center;
 }
-
 
 .rounded-circle{
     background-color: aliceblue;
@@ -41,4 +42,14 @@ nav{
         width: 2.5rem;
         height: 2.5rem;
     }
+}
+
+span{
+    background-color: rgb(240, 239, 239);
+    color: black;   
+    text-align: center;
+    padding: 0.5rem 0;
+    padding-left: 0.6rem ;
+    margin: 0;
+    border-radius: 1rem;
 }

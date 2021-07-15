@@ -18,14 +18,20 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item" routerLink="/editUser"><i class="fas fa-user-edit"></i> Editar Cuenta</a></li>
-            <li *ngIf="user.role == 'ROLE_ADMIN'"><a class="dropdown-item" routerLink="/saveUser"><i class="fas fa-user-plus"></i> Guardar Usuario</a></li>
+            <li *ngIf="user.role == 'ROLE_ADMIN'"><a class="dropdown-item" routerLink="/saveUserAdmin"><i class="fas fa-user-plus"></i> Guardar Usuario</a></li>
+            <li *ngIf="user.role == 'ROLE_ADMIN'"><a class="dropdown-item" routerLink="/listUsers"><i class="fas fa-clipboard-list"></i> Lista de Usuario</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" (click)="logOut()"><i class="fas fa-power-off"></i> Cerrar sesión</a></li>
           </ul>
           </li>
 
           <div >
-            <a class="text-color nav-link" routerLink="/editUser" *ngIf="token != null || token != undefined">{{user.username}} <img *ngIf="user.image" class="rounded-circle  " height="1" width="1" src="{{uri+'getImage/'+user.image}}" /> </a>
+
+            <a class="text-color nav-link" routerLink="/editUser" *ngIf="token != null || token != undefined"><span>{{user.username}}
+              <img *ngIf="user.image != null || user.image != undefined" class=" img" src="{{uri+'getImage/'+user.image}}" />
+              <img *ngIf="user.image == null " class="rounded-circle img" src="../../../assets/img/editUserDefault.png" />
+            </span>
+            </a>
           </div>
           <!-- Inicio-->
   
