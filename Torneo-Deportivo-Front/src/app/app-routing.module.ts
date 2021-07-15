@@ -4,7 +4,6 @@ import { EditUserComponent } from './component/edit-user/edit-user.component';
 import { HomeComponent } from './component/home/home.component';
 import { LoginComponent } from './component/login/login.component';
 import { NavBarComponent } from './component/nav-bar/nav-bar.component';
-import { NosotrosComponent } from './component/nosotros/nosotros.component';
 import { NotFoundComponent } from './component/not-found/not-found.component';
 import { RegisterComponent } from './component/register/register.component';
 import { TorneoComponent } from './component/torneo/torneo.component';
@@ -12,6 +11,7 @@ import { HomeEquipoComponent } from './component/home-equipo/home-equipo.compone
 import { AdminGuard } from './guards/admin.guard';
 import { SaveUserAdminComponent } from './component/save-user-admin/save-user-admin.component';
 import { ListUserComponent } from './component/list-user/list-user.component';
+import { JugadorComponent } from './component/jugador/jugador.component';
 
 
 const routes: Routes = [
@@ -20,7 +20,7 @@ const routes: Routes = [
   {path: 'navbar', component: NavBarComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
-  {path: 'nosotros', component: NosotrosComponent},
+  {path: 'jugador', component: JugadorComponent},
   {path: 'torneo', component: TorneoComponent},
   {path: 'editUser', component:EditUserComponent},
   {path: 'homeEquipo', component:HomeEquipoComponent},

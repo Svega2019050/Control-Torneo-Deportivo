@@ -18,8 +18,11 @@ export class HomeEquipoComponent implements OnInit {
   equipo;
   token;
   torneo;
+  message;
   user;
   uri;
+
+  
 
   constructor(private router: Router, private restUser:RestUserService,
     private restTorneo:RestTorneoService, private restEquipo:RestEquipoService) { 
@@ -42,7 +45,6 @@ export class HomeEquipoComponent implements OnInit {
   
   obtenerData(equipo){
     this.EquipoSelected = equipo;
-    console.log(this.EquipoSelected)
   }
 
   onSubmit(form){
@@ -74,7 +76,7 @@ export class HomeEquipoComponent implements OnInit {
     },
     error=> alert(error.error.message));
   }
-  
+
   removeEquipo(){
     this.restEquipo.removeEquipo(this.user._id, this.torneo, this.EquipoSelected).subscribe((res:any)=>{
       if (res.equipoPull) {
@@ -101,8 +103,8 @@ export class HomeEquipoComponent implements OnInit {
        
       } else {
         alert(res.message);    
-        this.user = this.restUser.getUser();
-        this.torneo = this.user.torneo;  
+        this.torneo = this.restTorneo.getTorneo();
+        this.equipos = this.torneo.equipos;  
         location.reload()
       }
     })

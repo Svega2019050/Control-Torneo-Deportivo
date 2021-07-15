@@ -13,53 +13,58 @@ function marcadorSave (req, res) {
     var params = req.body;
     var marcador = new marcadorModel();
 
-    if (params.jornada && params.equipo1 && params.golEquipo1 && params.equipo2 && params.golEquipo2) {
-        torneoModel.findById(torneoId,{torneo : torneoId},(err, torneoFind)=>{
-            if (err) {
-                return res.status(500).send({message: 'Error General',err});
-            }else if(torneoFind) {
-                VerificarEquipo(params.equipo1, params.equipo2, (err) =>{
-                    if (err) {
-                        return res.status(500).send({message: 'Error General',err});
-                    }else {
-                        
-                        if (params.equipo1 == params.equipo2) {
-                            return res.status(401).send({message: 'El mismo equipo no puede tener marcador'});
-                        }else{
-                            marcador.jornada = params.jornada,
-                            marcador.equipo1 = params.equipo1,
-                            marcador.golEquipo1 = params.golEquipo1,
-                            marcador.equipo2 = params.equipo2,
-                            marcador.golEquipo2 = params.golEquipo2
-        
-                            marcador.save((err, saveMarcador)=>{
-                                if (err) {
-                                    return res.status(500).send({message: 'Error General',err});
-                                }else if(saveMarcador) {
-                                    torneoModel.findByIdAndUpdate(torneoId,{$push:{marcador:saveMarcador._id}},{new: true},(err, marcadorPush)=>{
-                                        if (err) {
-                                            return res.status(500).send({message: 'Error General',err});
-                                        }else if(marcadorPush) {
-                                            return res.send({message: 'Marcador Guardado Con Exito',marcadorPush});
-                                        } else {
-                                            return res.status(401).send({message: 'NO se Puede Guardar Marcador'});
-                                        }
-                                    })
-                                } else {
-                                    return res.status(401).send({message: 'Error al guardar Marcador'});
-                                }
-                            });
+    if (userId != req.user.sub) {
+        return res.status(401).send({message: 'No tiene permiso para realizar esta acción '});
+    }else{
+        if (params.jornada && params.equipo1 && params.golEquipo1 && params.equipo2 && params.golEquipo2) {
+            torneoModel.findById(torneoId,{torneo : torneoId},(err, torneoFind)=>{
+                if (err) {
+                    return res.status(500).send({message: 'Error General',err});
+                }else if(torneoFind) {
+                    VerificarEquipo(params.equipo1, params.equipo2, (err) =>{
+                        if (err) {
+                            return res.status(500).send({message: 'Error General',err});
+                        }else {
+                            
+                            if (params.equipo1 == params.equipo2) {
+                                return res.status(401).send({message: 'El mismo equipo no puede tener marcador'});
+                            }else{
+                                marcador.jornada = params.jornada,
+                                marcador.equipo1 = params.equipo1,
+                                marcador.golEquipo1 = params.golEquipo1,
+                                marcador.equipo2 = params.equipo2,
+                                marcador.golEquipo2 = params.golEquipo2
+            
+                                marcador.save((err, saveMarcador)=>{
+                                    if (err) {
+                                        return res.status(500).send({message: 'Error General',err});
+                                    }else if(saveMarcador) {
+                                        torneoModel.findByIdAndUpdate(torneoId,{$push:{marcador:saveMarcador._id}},{new: true},(err, marcadorPush)=>{
+                                            if (err) {
+                                                return res.status(500).send({message: 'Error General',err});
+                                            }else if(marcadorPush) {
+                                                return res.send({message: 'Marcador Guardado Con Exito',marcadorPush});
+                                            } else {
+                                                return res.status(401).send({message: 'NO se Puede Guardar Marcador'});
+                                            }
+                                        })
+                                    } else {
+                                        return res.status(401).send({message: 'Error al guardar Marcador'});
+                                    }
+                                });
+                            }
+                            
                         }
-                        
-                    }
-                });
-            } else {
-                return res.status(401).send({message: 'Torneo Inexisten'});
-            }
-        });
-    } else {
-        return res.status(401).send({message: 'Faltan datos'});
+                    });
+                } else {
+                    return res.status(401).send({message: 'Torneo Inexisten'});
+                }
+            });
+        } else {
+            return res.status(401).send({message: 'Faltan datos'});
+        }
     }
+
 }
 
 /* Update marcador */

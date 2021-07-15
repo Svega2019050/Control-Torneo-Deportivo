@@ -58,8 +58,7 @@ export class RestEquipoService {
       'Authorization': this.restTorneo.getToken()
     })
     let params = JSON.stringify(equipo);
-
-    return this.http.put(this.uri+ idUser +  '/equipoEliminar/'+ torneo._id + '/'+ equipo._id, params,{headers:headers})
+    return this.http.put(this.uri+ idUser +  '/equipoUpdate/'+ equipo._id  + '/'+ torneo._id, params,{headers:headers})
     .pipe(map(this.extractData))
   }
 
@@ -69,6 +68,18 @@ export class RestEquipoService {
       'Authorization': this.restTorneo.getToken()
     })
     return this.http.get(this.uri+'getEquipo', {headers:headers})
+    .pipe(map(this.extractData))
+  }
+
+
+  saveMarcador(idUser, equipo, torneo){
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.restTorneo.getToken()
+    })
+    let params = JSON.stringify(equipo);
+    let torneoParams = JSON.parse(torneo);
+    return this.http.put(this.uri+torneoParams._id+'/equipoSave/'+idUser, params, {headers:headers})
     .pipe(map(this.extractData))
   }
 }

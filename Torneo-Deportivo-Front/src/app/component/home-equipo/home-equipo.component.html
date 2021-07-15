@@ -37,7 +37,7 @@
               </div>        
           </div>
           
-          <button type="button" class="btn btn-success mb-2 raise" (click)="saveTorneoEquipo(torneo)"  aria-current="page" routerLink="/homeEquipo" routerLinkActivate="active" >
+          <button type="button" class="btn btn-success mb-2 raise" (click)="saveEquipoJugador(equipo)"  aria-current="page" routerLink="/jugador" routerLinkActivate="active" >
               <i class="far fa-window-restore"></i> Ver
           </button>
     
@@ -114,10 +114,9 @@
     
                 <form class="form-signin" #equipo="ngForm">
                     <div class="mb-3 text-color">
-                    <label for="exampleInputEmail1" class="form-label"><i class="fas fa-trophy"></i> Nombre Torneo</label>
-                    <input  [(ngModel)]="EquipoSelected.nameEquipo" name="nameEquipo" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nombre Torneo" required>
-                    <label for="inputImage"></label>
-                        <input type="file" name="image" id="inputImage" class="form-control"  >
+                    <label for="TorneoInput" class="form-label"><i class="fas fa-trophy"></i> Nombre Torneo</label>
+                    <input  [(ngModel)]="EquipoSelected.nameEquipo" name="nameEquipo" type="text" class="form-control" id="TorneoInput" aria-describedby="emailHelp" placeholder="Nombre Torneo" required>
+                    
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"  data-dismiss="modal">Cancelar</button>

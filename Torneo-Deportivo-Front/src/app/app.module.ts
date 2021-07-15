@@ -12,7 +12,7 @@ import { NavBarComponent } from './component/nav-bar/nav-bar.component';
 import { LoginComponent } from './component/login/login.component';
 import { RegisterComponent } from './component/register/register.component';
 import { NotFoundComponent } from './component/not-found/not-found.component';
-import { NosotrosComponent } from './component/nosotros/nosotros.component';
+
 import { TorneoComponent } from './component/torneo/torneo.component';
 import { EditUserComponent } from './component/edit-user/edit-user.component';
 
@@ -22,6 +22,8 @@ import { UploadUserService } from './services/uploadUser/upload-user.service';
 import { HomeEquipoComponent } from './component/home-equipo/home-equipo.component';
 import { SaveUserAdminComponent } from './component/save-user-admin/save-user-admin.component';
 import { ListUserComponent } from './component/list-user/list-user.component';
+import { MarcadorComponent } from './component/marcador/marcador.component';
+import { JugadorComponent } from './component/jugador/jugador.component';
 
 
 
@@ -35,12 +37,13 @@ import { ListUserComponent } from './component/list-user/list-user.component';
     LoginComponent,
     RegisterComponent,
     NotFoundComponent,
-    NosotrosComponent,
     TorneoComponent,
     EditUserComponent,
     HomeEquipoComponent,
     SaveUserAdminComponent,
     ListUserComponent,
+    MarcadorComponent,
+    JugadorComponent,
 
 
   ],
