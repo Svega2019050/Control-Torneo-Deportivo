@@ -12,7 +12,7 @@ export class RestEquipoService {
   public uri;
   public token;
   public user;
-
+  public torneo;
  private extractData(res:Response){
     let body = res;
     return body || [] || {}
@@ -52,13 +52,16 @@ export class RestEquipoService {
     .pipe(map(this.extractData))
   }
 
-  updateEquipo(idUser, equipo,torneo){
+ 
+
+  updateEquipo(idUser, equipo, torneo){
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.restTorneo.getToken()
     })
-    let params = JSON.stringify(equipo);   
-    return this.http.put(this.uri+idUser+ '/equipoUpdate/'+  equipo._id  + '/' + torneo._id, params,{headers:headers})
+    let params = JSON.stringify(equipo);
+    let torneoParams = JSON.parse(torneo);
+    return this.http.put(this.uri+torneoParams._id+'/equipoUpdate/'+idUser +'/' +equipo._id, params, {headers:headers})
     .pipe(map(this.extractData))
   }
 

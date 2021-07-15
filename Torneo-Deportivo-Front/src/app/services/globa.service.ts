@@ -1,3 +1,3 @@
 export const CONNECTION ={
-  URI: 'https://control-torneo.herokuapp.com/api/'
+  URI: 'https://control-deportes.herokuapp.com/api/'
 }

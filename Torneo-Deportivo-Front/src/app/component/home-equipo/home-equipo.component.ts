@@ -138,7 +138,8 @@ export class HomeEquipoComponent implements OnInit {
   }
 
   updateEquipo(){
-    this.restEquipo.updateEquipo(this.user._id, this.torneo, this.EquipoSelected).subscribe((res:any)=>{
+    let torneo = localStorage.getItem('selectedTorneo');
+    this.restEquipo.updateEquipo(this.user._id, this.EquipoSelected, torneo).subscribe((res:any)=>{
       if (res.message) {
 
         alert(res.message);
@@ -146,9 +147,8 @@ export class HomeEquipoComponent implements OnInit {
         this.torneo = res.message;
 
         localStorage.setItem('torneo', JSON.stringify(res.message))
+        location.reload()
 
-        this.torneo = this.restTorneo.getTorneo();
-        this.equipos = this.torneo.equipos;
         
       } else {
         console.log(this.EquipoSelected)
