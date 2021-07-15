@@ -40,6 +40,7 @@ export class TorneoComponent implements OnInit,DoCheck {
 
   obtenerData(torneo){
     this.TorneoSelected = torneo;
+    console.log(this.TorneoSelected)
   }
 
   listTorneo(){
@@ -85,14 +86,17 @@ export class TorneoComponent implements OnInit,DoCheck {
   }
 
   
-  uploadImage(){
-    this.uploadTorneo.fileRequest(this.user._id, this.torneo._id, [], this.filesToUpload, this.token, 'image')
+  uploadImageTorneo(){
+    this.uploadTorneo.fileRequest(this.user._id, this.torneo, [], this.filesToUpload, this.token, 'image')
       .then((res:any)=>{
         if(res.user){
           this.user.image = res.userImage;
           localStorage.setItem('user', JSON.stringify(this.user));
+          console.log(this.TorneoSelected)
         }else{
-          alert(res.message)
+          alert(res.message);
+          console.log('siuu')
+          
         }
       })
   }

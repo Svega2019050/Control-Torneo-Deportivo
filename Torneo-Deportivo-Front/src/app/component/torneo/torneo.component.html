@@ -3,7 +3,7 @@
     <div class="card imagen text-center" *ngFor="let torneo of torneos">
 
         <img *ngIf="torneo.image" class=" img" src="{{uri+ '/getImageTorneo/'+ torneo.image}}" />
-        <img *ngIf="torneo.imageTorneo == null || torneo.imageTorneo == undefined " class=" img" height="200" src="../../../assets/img/torneo-default.jpg" />
+        <img *ngIf="torneo.image == null || torneo.image == undefined " class=" img" height="200" src="../../../assets/img/torneo-default.jpg" />
 
         <div class="card-body">
             
@@ -27,29 +27,31 @@
 
 <!--Actualizar-->
 <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
-<div class="modal-dialog modal-lg">
-    <div class="modal-content">
-    <div class="modal-header">
-        <h5 class="modal-title" id="updateModalLabel">Actualizar</h5>
-        <button type="button"   class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-        <div class="modal-body">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="updateModalLabel">Actualizar</h5>
+            <button type="button"   class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+            <div class="modal-body">
 
-            <form class="form-signin" #torneo="ngForm">
-                <div class="mb-3 text-color">
-                <label for="nameinput" class="form-label"><i class="fas fa-trophy"></i> Nombre Equipo</label>
-                <input  [(ngModel)]="TorneoSelected.name" name="name" type="text" class="form-control" id="nameinput" aria-describedby="emailHelp" placeholder="Nombre Torneo" required>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary"  data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" [disabled]="!torneo.form.valid" (click)="updateTorneo()"   >Aceptar</button>                  
-                </div>
-            </form>
+                <form class="form-signin" #torneo="ngForm">
+                    <div class="mb-3 text-color">
+                    <label for="nameinput" class="form-label"><i class="fas fa-trophy"></i> Nombre Equipo</label>
+                    <input  [(ngModel)]="TorneoSelected.name" name="name" type="text" class="form-control" id="nameinput" aria-describedby="emailHelp" placeholder="Nombre Torneo" required>
+                    </div>
+                    <label for="inputImage"></label>
+                    <input type="file" name="image" id="inputImage" class="form-control" (change)="fileChange($event)" >
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"  data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" [disabled]="!torneo.form.valid"   (click)="uploadImageTorneo()"  >Aceptar</button>                  
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 </div>
 
 <!--Eliminar-->

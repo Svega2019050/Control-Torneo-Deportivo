@@ -16,8 +16,7 @@ export class UploadTorneoService {
     return new Promise((resolve, reject)=>{
       var formData: any = new FormData();
       var xhr = new XMLHttpRequest();
-      let uri = this.uri+torneoId+'/uploadImageTorneo/'+userId;
-
+      let uri = this.uri+ userId +'/uploadImageTorneo/'+ torneoId;
       for(var i=0; i< files.length; i++){
         formData.append(name, files[i], files[i].name);
       }
