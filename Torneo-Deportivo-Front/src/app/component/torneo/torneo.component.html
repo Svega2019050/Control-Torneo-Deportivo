@@ -3,7 +3,7 @@
     <div class="card imagen text-center" *ngFor="let torneo of torneos">
 
         <img *ngIf="torneo.image" class=" img" src="{{uri+ '/getImageTorneo/'+ torneo.image}}" />
-        <img *ngIf="torneo.image == null || torneo.image == undefined " class=" img" height="200" src="../../../assets/img/torneo-default.jpg" />
+        <img *ngIf="torneo.imageTorneo == null || torneo.imageTorneo == undefined " class=" img" height="200" src="../../../assets/img/torneo-default.jpg" />
 
         <div class="card-body">
             
@@ -42,11 +42,9 @@
                     <label for="nameinput" class="form-label"><i class="fas fa-trophy"></i> Nombre Equipo</label>
                     <input  [(ngModel)]="TorneoSelected.name" name="name" type="text" class="form-control" id="nameinput" aria-describedby="emailHelp" placeholder="Nombre Torneo" required>
                     </div>
-                    <label for="inputImage"></label>
-                    <input type="file" name="image" id="inputImage" class="form-control" (change)="fileChange($event)" >
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"  data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" [disabled]="!torneo.form.valid"   (click)="uploadImageTorneo()"  >Aceptar</button>                  
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" [disabled]="!torneo.form.valid" (click)="updateTorneo()"   >Aceptar</button>                  
                     </div>
                 </form>
             </div>

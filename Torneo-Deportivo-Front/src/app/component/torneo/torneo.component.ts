@@ -92,10 +92,9 @@ export class TorneoComponent implements OnInit,DoCheck {
         if(res.user){
           this.user.image = res.userImage;
           localStorage.setItem('user', JSON.stringify(this.user));
-          console.log(this.TorneoSelected)
+
         }else{
           alert(res.message);
-          console.log('siuu')
           
         }
       })
