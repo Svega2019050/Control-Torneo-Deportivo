@@ -12,6 +12,7 @@ import { AdminGuard } from './guards/admin.guard';
 import { SaveUserAdminComponent } from './component/save-user-admin/save-user-admin.component';
 import { ListUserComponent } from './component/list-user/list-user.component';
 import { JugadorComponent } from './component/jugador/jugador.component';
+import { MarcadorComponent } from './component/marcador/marcador.component';
 
 
 const routes: Routes = [
@@ -26,6 +27,7 @@ const routes: Routes = [
   {path: 'homeEquipo', component:HomeEquipoComponent},
   {path: 'saveUserAdmin', canActivate: [AdminGuard], component:SaveUserAdminComponent},
   {path: 'listUsers', canActivate:[AdminGuard], component: ListUserComponent},
+  {path: 'marcador', component: MarcadorComponent},
 
   {path: 'not-Found', component: NotFoundComponent},
   {path: '**', component: NotFoundComponent}

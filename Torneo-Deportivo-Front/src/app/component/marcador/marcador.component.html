@@ -1,1 +1,43 @@
-<p>marcador works!</p>
+<form (ngSubmit)="onSubmit(saveMarcador)" #saveMarcador="ngForm">
+
+    <div class="mb-3 text-color text-center">
+      <label for="inputnameEquipo" class="form-label"><i class="fas fa-clock"></i> Jornada</label>
+      <input  [(ngModel)]="MarcadorSelected.jornada" name="MarcadorSelected" type="text" class="form-control" id="inputnameEquipo" aria-describedby="emailHelp" placeholder="Jornada" required>
+    </div>
+
+    <div class="row">
+
+        <div class="mb-3 text-color col">
+            <label for="inputnameEquipo1" class="form-label"><i class="fas fa-users"></i> Equipo Uno</label>
+            <select [(ngModel)]="MarcadorSelected.equipo1" name="equipo1" id="inputnameEquipo1" class="form-control" >
+                <option *ngFor="let option of opcionesEquipo" [value]="option">{{option.nameEquipo}}</option>
+            </select>
+        </div>
+
+          
+        <div class="mb-3 text-color col">
+            <label for="inputgol1" class="form-label"><i class="fas fa-futbol"></i> Gol De Equipo Uno</label>
+            <input  [(ngModel)]="MarcadorSelected.golEquipo1" name="MarcadorSelected" type="number" class="form-control" id="inputgol1" aria-describedby="inputgol1" placeholder="Gol De Equipo Uno" required>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="mb-3 text-color col">
+            <label for="inputnameEquipo2" class="form-label"><i class="fas fa-users"></i> Equipo Dos</label>
+            <select [(ngModel)]="MarcadorSelected.equipo2" name="equipo2" id="inputnameEquipo2" class="form-control">
+                <option *ngFor="let option of EquipoSelected" [value]="option">{{option.nameEquipo}}</option>
+            </select>
+        </div>
+
+        <div class="mb-3 text-color col">
+            <label for="inputgol2" class="form-label"><i class="fas fa-futbol"></i> Gol De Equipo Dos</label>
+            <input  [(ngModel)]="MarcadorSelected.golEquipo2" name="MarcadorSelected" type="number" class="form-control" id="inputgol2" aria-describedby="inputgol2" placeholder="Gol De Equipo Dos" required>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" routerLink="/homeEquipo" routerLinkActivate="active" data-dismiss="modal">Cancelar</button>
+      <input type="submit" class="btn btn-primary" value="Guardar Torneo" [disabled]="!saveMarcador.form.valid" >
+    </div>
+</form>
