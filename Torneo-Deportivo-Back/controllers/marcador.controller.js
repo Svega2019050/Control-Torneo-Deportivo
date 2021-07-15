@@ -124,9 +124,28 @@ function VerificarJornada(numero, torneo, callback){
     });
 }
 
+function getMarcador(req, res) {
+    var torneoId = req.params.torneoId;
+    var userId = req.params.userId;
+
+    
+    marcadorModel.find({}).exec((err, marcador) => {
+        if (err) {
+            return res.status(500).send({ message: 'Error general en el servidor' })
+        } else if (marcador) {
+            return res.send({ message: 'Marcador',marcador })
+        } else {
+            return res.status(404).send({ message: 'No hay Marcador' })
+        }
+    })
+
+    
+}
+
 /* Exports */
 module.exports = {
     marcadorSave,
     marcadorUpdate,
-    marcadorDelete
+    marcadorDelete,
+    getMarcador
 }

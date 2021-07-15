@@ -71,6 +71,16 @@ export class RestEquipoService {
     .pipe(map(this.extractData))
   }
 
+  getMarcador(){
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.restTorneo.getToken()
+    })
+    return this.http.get(this.uri+'getMarcador', {headers:headers})
+    .pipe(map(this.extractData))
+  }
+
+
 
   saveMarcador(idUser, marcador, torneo){
     let headers = new HttpHeaders({
@@ -79,7 +89,8 @@ export class RestEquipoService {
     })
     let params = JSON.stringify(marcador);
     let torneoParams = JSON.parse(torneo);
-    return this.http.put(this.uri+ idUser +'/marcadorSave/' ,torneoParams._id+ params, {headers:headers})
+    return this.http.put(this.uri+idUser+'/marcadorSave/'+torneoParams._id, params, {headers:headers})
     .pipe(map(this.extractData))
   }
+
 }

@@ -4,10 +4,12 @@ const { update } = require('../models/equipo.model');
 var modelEquipo = require('../models/equipo.model');
 var torneoModel = require("../models/torneo.model");
 var userModel = require("../models/user.model");
+const fs = require('fs');
+const path = require('path');
 
 /* save */
 function equipoSave(req,res) {
-    var torneoId = req.params.torneoId;
+    var equipoId = req.params.torneoId;
     var userId = req.params.userId;
     var params = req.body;
     var equipo = new modelEquipo();
@@ -186,18 +188,130 @@ function getEquipo(req, res) {
         if (err) {
             return res.status(500).send({ message: 'Error general en el servidor' })
         } else if (equipos) {
-            return res.send({ message: 'torneos',equipos })
+            return res.send({ message: 'Equipo',equipos })
         } else {
-            return res.status(404).send({ message: 'No hay torneos' })
+            return res.status(404).send({ message: 'No hay Equipo' })
         }
     })
 
     
 }
 
+function uploadImageEquipo(req, res) {
+    var equipoId = req.params.equipoId;
+    var userId = req.params.userId;
+    var update = req.body;
+    var fileName;
+
+    if (userId != req.user.sub) {
+        return res.status(401).send({message: 'No tiene permiso para realizar esta acción '});
+    }else{
+        if (req.files) {
+            var filePath = req.files.imageEquipo.path;
+            var fileSplit = filePath.split('\\');
+            var fileName = fileSplit[2];
+    
+            var extension = fileName.split('\.');
+            var fileExt = extension[1];
+            if (fileExt == 'png' ||
+                fileExt == 'jpg' ||
+                fileExt == 'jpeg' ||
+                fileExt == 'gif') {
+                modelEquipo.findByIdAndUpdate(equipoId, { imageEquipo: fileName }, { new: true }, (err, torneoUpdated) => {
+                    if (err) {
+                        res.status(500).send({ message: 'Error general' });
+                    } else if (torneoUpdated) {
+                        res.send({ equipo: torneoUpdated, torneoImage: torneoUpdated.imageEquipo });
+                    } else {
+                        res.status(400).send({ message: 'No se ha podido actualizar' });
+                    }
+                })
+            } else {
+                fs.unlink(filePath, (err) => {
+                    if (err) {
+                        res.status(500).send({ message: 'Extensión no válida y error al eliminar archivo' });
+                    } else {
+                        res.send({ message: 'Extensión no válida' })
+                    }
+                })
+            }
+        } else {
+            res.status(400).send({ message: 'No has enviado imagen a subir' })
+        }
+    }
+
+
+
+}
+
+
+function uploadImageEquipo(req, res) {
+    var equipoId = req.params.equipoId;
+    var userId = req.params.userId;
+    var update = req.body;
+    var fileName;
+
+    if (userId != req.user.sub) {
+        return res.status(401).send({message: 'No tiene permiso para realizar esta acción '});
+    }else{
+        if (req.files) {
+            var filePath = req.files.imageTorneo.path;
+            var fileSplit = filePath.split('\\');
+            var fileName = fileSplit[2];
+    
+            var extension = fileName.split('\.');
+            var fileExt = extension[1];
+            if (fileExt == 'png' ||
+                fileExt == 'jpg' ||
+                fileExt == 'jpeg' ||
+                fileExt == 'gif') {
+                modelEquipo.findByIdAndUpdate(equipoId, { imageTorneo: fileName }, { new: true }, (err, torneoUpdated) => {
+                    if (err) {
+                        res.status(500).send({ message: 'Error general' });
+                    } else if (torneoUpdated) {
+                        res.send({ torneo: torneoUpdated, torneoImage: torneoUpdated.imageTorneo });
+                    } else {
+                        res.status(400).send({ message: 'No se ha podido actualizar' });
+                    }
+                })
+            } else {
+                fs.unlink(filePath, (err) => {
+                    if (err) {
+                        res.status(500).send({ message: 'Extensión no válida y error al eliminar archivo' });
+                    } else {
+                        res.send({ message: 'Extensión no válida' })
+                    }
+                })
+            }
+        } else {
+            res.status(400).send({ message: 'No has enviado imagen a subir' })
+        }
+    }
+
+
+
+}
+
+
+/* view image */
+function getimageEquipo(req, res) {
+    var fileName = req.params.fileName;
+    var pathFile = './uploads/equipo/' + fileName;
+
+    fs.exists(pathFile, (exists) => {
+        if (exists) {
+            res.sendFile(path.resolve(pathFile));
+        } else {
+            res.status(404).send({ message: 'Imagen inexistente' });
+        }
+    })
+}
+
 module.exports = {
     equipoSave,
     equipoEliminar,
     equipoUpdate,
-    getEquipo
+    getEquipo,
+    getimageEquipo,
+    uploadImageEquipo
 }

@@ -1,43 +1,35 @@
-<form (ngSubmit)="onSubmit(saveMarcador)" #saveMarcador="ngForm">
 
-    <div class="mb-3 text-color text-center">
-      <label for="inputnameEquipo" class="form-label"><i class="fas fa-clock"></i> Jornada</label>
-      <input  [(ngModel)]="MarcadorSelected.jornada" name="MarcadorSelected" type="text" class="form-control" id="inputnameEquipo" aria-describedby="emailHelp" placeholder="Jornada" required>
+<div class="rounded container p-3 my-3 border">
+    <h1 class="titulo-principal">{{torneo.name}}</h1>
+
+    <button type="button" class="btn btn-warning raise" routerLink="/homeEquipo" routerLinkActivate="active">
+        <i class="fas fa-backward "></i>
+    </button>
+
+    <div id="cards" *ngIf="token != null || token != undefined">
+
+        <div class="card imagen text-center" *ngFor="let marcador of marcadors">
+    
+            <img *ngIf="torneo.image" class=" img" src="{{uri+ '/getImageTorneo/'+ torneo.image}}" />
+            <img *ngIf="torneo.imageTorneo == null || torneo.imageTorneo == undefined " class=" img" height="200" src="../../../assets/img/torneo-default.jpg" />
+    
+            <div class="card-body">
+                
+                <h5 class="card-title text-center">{{marcador.jornada}}</h5>
+    
+                <div class="button">
+                <a class="btn " data-toggle="modal" data-target="#updateModal" (click)="obtenerData(torneo)"><i class="far fa-edit raise"></i></a>
+                <a class="btn " data-toggle="modal" data-target="#removeModal" (click)="obtenerData(torneo)"><i class="far fa-trash-alt raise text-danger"></i></a>
+                </div>        
+            </div>
+            
+            <button type="button" class="btn btn-success mb-2 raise" (click)="saveTorneoEquipo(torneo)"  aria-current="page" routerLink="/homeEquipo" routerLinkActivate="active" >
+                <i class="far fa-window-restore"></i> Ver
+            </button>
+    
+        </div>
+    
     </div>
 
-    <div class="row">
 
-        <div class="mb-3 text-color col">
-            <label for="inputnameEquipo1" class="form-label"><i class="fas fa-users"></i> Equipo Uno</label>
-            <select [(ngModel)]="MarcadorSelected.equipo1" name="equipo1" id="inputnameEquipo1" class="form-control" >
-                <option *ngFor="let option of opcionesEquipo" [value]="option">{{option.nameEquipo}}</option>
-            </select>
-        </div>
-
-          
-        <div class="mb-3 text-color col">
-            <label for="inputgol1" class="form-label"><i class="fas fa-futbol"></i> Gol De Equipo Uno</label>
-            <input  [(ngModel)]="MarcadorSelected.golEquipo1" name="MarcadorSelected" type="number" class="form-control" id="inputgol1" aria-describedby="inputgol1" placeholder="Gol De Equipo Uno" required>
-        </div>
-    </div>
-
-    <div class="row">
-
-        <div class="mb-3 text-color col">
-            <label for="inputnameEquipo2" class="form-label"><i class="fas fa-users"></i> Equipo Dos</label>
-            <select [(ngModel)]="MarcadorSelected.equipo2" name="equipo2" id="inputnameEquipo2" class="form-control">
-                <option *ngFor="let option of EquipoSelected" [value]="option">{{option.nameEquipo}}</option>
-            </select>
-        </div>
-
-        <div class="mb-3 text-color col">
-            <label for="inputgol2" class="form-label"><i class="fas fa-futbol"></i> Gol De Equipo Dos</label>
-            <input  [(ngModel)]="MarcadorSelected.golEquipo2" name="MarcadorSelected" type="number" class="form-control" id="inputgol2" aria-describedby="inputgol2" placeholder="Gol De Equipo Dos" required>
-        </div>
-    </div>
-
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" routerLink="/homeEquipo" routerLinkActivate="active" data-dismiss="modal">Cancelar</button>
-      <input type="submit" class="btn btn-primary" value="Guardar Torneo" [disabled]="!saveMarcador.form.valid" >
-    </div>
-</form>
+</div>

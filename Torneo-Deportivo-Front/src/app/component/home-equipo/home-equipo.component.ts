@@ -5,6 +5,7 @@ import { RestUserService } from '../../services/restUser/rest-user.service';
 import {RestTorneoService} from '../../services/restTorneo/rest-torneo.service';
 import { RestEquipoService } from 'src/app/services/restEquipo/rest-equipo.service';
 import { Equipo } from 'src/app/models/equipo';
+import { Marcador } from 'src/app/models/marcador.model';
 
 @Component({
   selector: 'app-home-equipo',
@@ -16,9 +17,14 @@ export class HomeEquipoComponent implements OnInit {
   EquipoSelected: Equipo;
   equipos:[];
   equipo;
+  MarcadorSelected: Marcador;
+  marcadors:[];
+  marcador;
+  public opcionesEquipo = ['nel'];
+
   token;
   torneo;
-  message;
+ 
   user;
   uri;
 
@@ -27,9 +33,11 @@ export class HomeEquipoComponent implements OnInit {
   constructor(private router: Router, private restUser:RestUserService,
     private restTorneo:RestTorneoService, private restEquipo:RestEquipoService) { 
       this.EquipoSelected = new Equipo('','','','',[]);
+      this.MarcadorSelected = new Marcador('','','','',[],[]);
   }
 
   ngOnInit(): void {
+    this.MarcadorSelected = new Marcador('','','','',[],[]);
     this.EquipoSelected = new Equipo('','','','',[]);
     this.torneo = JSON.parse(localStorage.getItem('selectedTorneo'));
     this.uri = CONNECTION.URI;
@@ -43,8 +51,9 @@ export class HomeEquipoComponent implements OnInit {
 
   }
   
-  obtenerData(equipo){
+  obtenerData(equipo, marcador){
     this.EquipoSelected = equipo;
+    this.MarcadorSelected = marcador;
   }
 
   onSubmit(form){
@@ -53,7 +62,6 @@ export class HomeEquipoComponent implements OnInit {
       if(res.equipoPush){
         alert(res.message)
         form.reset();
-        delete res.equipoPush.password;
         this.torneo = res.equipoPush;
         localStorage.setItem('torneo', JSON.stringify(this.torneo))
         this.listEquipo();
@@ -63,6 +71,35 @@ export class HomeEquipoComponent implements OnInit {
       }
     },
     error=> alert(error.error.message))
+  }
+
+  onSubmit2(form){
+    let torneo = localStorage.getItem('selectedTorneo');
+    this.restEquipo.saveMarcador(this.user._id, this.MarcadorSelected, torneo).subscribe((res:any)=>{
+      if(res.MarcadorPush){
+        alert(res.message)
+        form.reset();
+        this.torneo = res.MarcadorPush;
+        localStorage.setItem('torneo', JSON.stringify(this.torneo))
+        this.listEquipo();
+      }else{
+        alert(res.message)
+        this.listEquipo();
+      }
+    },
+    error=> alert(error.error.message))
+  }
+
+  listMarcador(){
+    this.restEquipo.getMarcador().subscribe((res:any)=>{
+      if(res.marcadors){
+        this.marcador = res.marcadors;
+        console.log(this.marcadors)
+      }else{
+        console.log(this.marcadors)
+      }
+    },
+    error=> alert(error.error.message));
   }
 
   listEquipo(){
@@ -115,6 +152,13 @@ export class HomeEquipoComponent implements OnInit {
     localStorage.setItem('selectedEquipo',JSON.stringify(equipo));
     
     console.log("equipo", equipo);
+    // para ingresar torneo en el local storage
+  }
+
+  saveMarcador(marcador){
+    localStorage.setItem('selectedMarcador',JSON.stringify(this.marcador));
+    
+    console.log("equipo", marcador);
     // para ingresar torneo en el local storage
   }
 }

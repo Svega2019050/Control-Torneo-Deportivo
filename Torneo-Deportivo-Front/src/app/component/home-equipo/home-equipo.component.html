@@ -11,16 +11,17 @@
             <i class="fas fa-users"></i> Agregar Equipo
         </button>
         
-        <button type="button" class="btn btn-secondary raise" (click)="obtenerData(equipo)"  data-toggle="modal" data-target="#MarcadorModal" >
+        <button type="button" class="btn btn-secondary raise" data-toggle="modal" data-target="#MarcadorModal" >
             <i class="fas fa-sitemap"></i> Agregar Marcador
         </button>
-        <button type="button" class="btn btn-info raise"  data-toggle="modal" data-target="#torneoModal" >
+        <button type="button" class="btn btn-info raise"  routerLink="/marcador" routerLinkActivate="active" >
             <i class="fas fa-chart-bar"></i> Graficas
         </button>
     </div>
 
     <!-- Home -->
 
+    
     <div id="cards">
 
       <div class="card imagen text-center" *ngFor="let equipo of equipos">
@@ -44,9 +45,6 @@
       </div>
     
     </div>
-
-
-
 
     <!-- Modal Agregar -->
     <div class="modal fade" id="equipoModal" tabindex="-1" role="dialog" aria-labelledby="equipoModalLabel" aria-hidden="true">
@@ -127,7 +125,7 @@
         </div>
     </div>
     </div>
-
+    <!--Marcador-->
     <div class="modal fade" id="MarcadorModal" tabindex="-1" role="dialog" aria-labelledby="MarcadorModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -138,7 +136,49 @@
             </button>
           </div>
           <div class="modal-body">
-            <app-marcador></app-marcador>
+
+            <form (ngSubmit)="onSubmit2(saveMarcador)" #saveMarcador="ngForm">
+
+              <div class="mb-3 text-color text-center">
+                <label for="inputnameEquipo" class="form-label"><i class="fas fa-clock"></i> Jornada</label>
+                <input  [(ngModel)]="MarcadorSelected.jornada" name="MarcadorSelected" type="number" class="form-control" id="inputnameEquipo" aria-describedby="emailHelp" placeholder="Jornada" required>
+              </div>
+          
+              <div class="row">
+          
+                  <div class="mb-3 text-color col">
+                      <label for="inputnameEquipo1" class="form-label"><i class="fas fa-users"></i> Equipo Uno</label>
+
+                      <input  [(ngModel)]="MarcadorSelected.equipo1" name="MarcadorSelected" type="text" class="form-control" id="inputnameEquipo1" aria-describedby="emailHelp" placeholder="Jornada" required>
+
+                  </div>
+          
+                    
+                  <div class="mb-3 text-color col">
+                      <label for="inputgol1" class="form-label"><i class="fas fa-futbol"></i> Gol De Equipo Uno</label>
+                      <input  [(ngModel)]="MarcadorSelected.golEquipo1" name="MarcadorSelected" type="number" class="form-control" id="inputgol1" aria-describedby="inputgol1" placeholder="Gol De Equipo Uno" required>
+                  </div>
+              </div>
+          
+              <div class="row">
+          
+                  <div class="mb-3 text-color col">
+                      <label for="inputnameEquipo2" class="form-label"><i class="fas fa-users"></i> Equipo Dos</label>
+                      <input  [(ngModel)]="MarcadorSelected.equipo2" name="MarcadorSelected" type="text" class="form-control" id="inputnameEquipo2" aria-describedby="emailHelp" placeholder="Jornada" required>
+
+                  </div>
+          
+                  <div class="mb-3 text-color col">
+                      <label for="inputgol2" class="form-label"><i class="fas fa-futbol"></i> Gol De Equipo Dos</label>
+                      <input  [(ngModel)]="MarcadorSelected.golEquipo2" name="MarcadorSelected" type="number" class="form-control" id="inputgol2" aria-describedby="inputgol2" placeholder="Gol De Equipo Dos" required>
+                  </div>
+              </div>
+          
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"  data-dismiss="modal">Cancelar</button>
+                <input type="submit" class="btn btn-primary" value="Guardar Torneo" [disabled]="!saveMarcador.form.valid" >
+              </div>
+            </form>
           </div>
 
         </div>
