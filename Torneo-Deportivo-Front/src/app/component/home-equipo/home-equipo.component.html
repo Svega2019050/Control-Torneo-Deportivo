@@ -31,6 +31,7 @@
           <div class="card-body">
               
               <h5 class="card-title text-center">{{equipo.nameEquipo}}</h5>
+              <h5 class="card-title text-center">{{equipo._id}}</h5>
     
               <div class="button">
               <a class="btn " data-toggle="modal" data-target="#updateModal" (click)="obtenerData(equipo)"><i class="far fa-edit raise"></i></a>
@@ -150,7 +151,7 @@
                   <div class="mb-3 text-color col">
                       <label for="inputnameEquipo1" class="form-label"><i class="fas fa-users"></i> Equipo Uno</label>
 
-                      <input  [(ngModel)]="MarcadorSelected.equipo1" name="MarcadorSelected" type="text" class="form-control" id="inputnameEquipo1" aria-describedby="emailHelp" placeholder="Jornada" required>
+                      <input  [(ngModel)]="MarcadorSelected.equipo1" name="MarcadorSelected" type="text" class="form-control" id="inputnameEquipo1" aria-describedby="emailHelp" placeholder="Equipo Uno" required>
 
                   </div>
           
@@ -165,7 +166,7 @@
           
                   <div class="mb-3 text-color col">
                       <label for="inputnameEquipo2" class="form-label"><i class="fas fa-users"></i> Equipo Dos</label>
-                      <input  [(ngModel)]="MarcadorSelected.equipo2" name="MarcadorSelected" type="text" class="form-control" id="inputnameEquipo2" aria-describedby="emailHelp" placeholder="Jornada" required>
+                      <input  [(ngModel)]="MarcadorSelected.equipo2" name="MarcadorSelected" type="text" class="form-control" id="inputnameEquipo2" aria-describedby="emailHelp" placeholder="Equipo Dos" required>
 
                   </div>
           

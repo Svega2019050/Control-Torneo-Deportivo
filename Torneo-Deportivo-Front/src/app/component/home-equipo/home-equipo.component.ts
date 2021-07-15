@@ -129,7 +129,7 @@ export class HomeEquipoComponent implements OnInit {
         this.equipos = this.torneo.equipos;
 
       } else {
-        alert(res.message)
+        
       }
       this.listEquipo();
     })

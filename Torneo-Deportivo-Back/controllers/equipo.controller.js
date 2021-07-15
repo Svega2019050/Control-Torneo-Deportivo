@@ -201,32 +201,15 @@ function getEquipos(req, res) {
     var torneoId = req.params.torneoId;
     var userId = req.params.userId;
 
-    if (userId != req.user.sub) {
-        return res.status(401).send({message: 'No tiene permiso para realizar esta acción '});
-    }else{
-        modelEquipo.find({ torneo: torneoId }, (err, equipo) => {
-            if (err) {
-              res.status(500).send({
-                message: "Error en el servidor al integrar un equipo a un Torneo",
-              });
-            } else if(equipo){
-                modelEquipo.find({}).exec((err, equipos) => {
-                    if (err) {
-                        return res.status(500).send({ message: 'Error general en el servidor' })
-                    } else if (equipos) {
-                        return res.send({ message: 'torneos',equipos })
-                    } else {
-                        return res.status(404).send({ message: 'No hay torneos' })
-                    }
-                })
-            } else {
-                res
-                  .status(404)
-                  .send({ message: "Datos nulos como respuesta del servidor" });
-            }
-            
-        });
-    }
+    modelEquipo.find({}).exec((err, equipos) => {
+        if (err) {
+            return res.status(500).send({ message: 'Error general en el servidor' })
+        } else if (equipos) {
+            return res.send({ message: 'torneos',equipos })
+        } else {
+            return res.status(404).send({ message: 'No hay torneos' })
+        }
+    })
 
   
 }
