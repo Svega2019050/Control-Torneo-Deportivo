@@ -6,30 +6,7 @@
         <i class="fas fa-backward "></i>
     </button>
 
-    <div id="cards" *ngIf="token != null || token != undefined">
-
-        <div class="card imagen text-center" *ngFor="let marcador of marcadors">
     
-            <img *ngIf="torneo.image" class=" img" src="{{uri+ '/getImageTorneo/'+ torneo.image}}" />
-            <img *ngIf="torneo.imageTorneo == null || torneo.imageTorneo == undefined " class=" img" height="200" src="../../../assets/img/torneo-default.jpg" />
-    
-            <div class="card-body">
-                
-                <h5 class="card-title text-center">{{marcador.jornada}}</h5>
-    
-                <div class="button">
-                <a class="btn " data-toggle="modal" data-target="#updateModal" (click)="obtenerData(torneo)"><i class="far fa-edit raise"></i></a>
-                <a class="btn " data-toggle="modal" data-target="#removeModal" (click)="obtenerData(torneo)"><i class="far fa-trash-alt raise text-danger"></i></a>
-                </div>        
-            </div>
-            
-            <button type="button" class="btn btn-success mb-2 raise" (click)="saveTorneoEquipo(torneo)"  aria-current="page" routerLink="/homeEquipo" routerLinkActivate="active" >
-                <i class="far fa-window-restore"></i> Ver
-            </button>
-    
-        </div>
-    
-    </div>
 
 
 </div>
