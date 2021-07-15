@@ -6,7 +6,7 @@ var port = process.env.PORT || 3200;
 
 mongoose.Promise = global.Promise;
 mongoose.set('useFindAndModify', false);
-mongoose.connect('mongodb://localhost:27017/Control-Torneo',{useNewUrlParser: true, useUnifiedTopology:
+mongoose.connect('mongodb+srv://admin:admin@cluster0.bb7ba.mongodb.net/Cluster0?retryWrites=true&w=majority',{useNewUrlParser: true, useUnifiedTopology:
 true})
     .then(()=>{
         console.log('Conectado al Base De Datos');
