@@ -25,6 +25,7 @@ export class EditUserComponent implements OnInit {
     this.user = this.restUser.getUser();
     this.token = this.restUser.getToken();
     this.uri = CONNECTION.URI;
+    
   }
 
   ngOnInit(): void {
@@ -49,6 +50,7 @@ export class EditUserComponent implements OnInit {
     },
     error=> alert(error.error.message))
   }
+
 
   deleteUser(){
     this.restUser.deleteUser(this.user._id, this.possiblePass).subscribe((res:any)=>{

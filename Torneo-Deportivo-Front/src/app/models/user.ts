@@ -9,6 +9,6 @@ export class User{
         public image: string,
         public phone: string,
         public role: string,
-        public contacts: []
+        public torneo: []
     ){}
 }

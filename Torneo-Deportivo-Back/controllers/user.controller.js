@@ -302,6 +302,97 @@ function saveUserByAdmin(req, res) {
 
 }
 
+function deleteUserAdmin(req, res) {
+    var userId = req.params.userId;
+    var userId2 = req.params.userId2;
+    var payload = req.user;
+
+    if (userId != req.user.sub) {
+        return res.status(401).send({message: 'No tiene permiso para realizar esta acción '});
+    }else{
+
+        User.findOne({ _id: userId2 }, (err, userFind) => {
+            if (err) {
+                return res.status(500).send({ message: 'Error general al eliminar' });
+            } else if (userFind) {
+                if (userFind.role == 'ROLE_ADMIN' ) {
+                    return res.status(403).send({ message: 'No tienes permiso de eliminar un Usuario Administrador'});
+                } else{
+                    User.findByIdAndRemove(userId2, (err, userRemoved) => {
+                        if (err) {
+                            return res.status(500).send({ message: 'Error general al eliminar' });
+                        } else if (userRemoved) {
+                            return res.send({ message: 'Usuario eliminado', userRemoved });
+                        } else {
+                            return res.status(403).send({ message: 'Usuario no eliminado' });
+                        }
+                    })
+                }
+
+            } else {
+                return res.status(403).send({ message: 'Usuario no Encontrado' });
+            }
+        });
+
+    }
+}
+
+function UpdateUserAdmin(req, res) {
+    var userId = req.params.userId;
+    var userId2 = req.params.userId2;
+    var update = req.body;
+
+    if (userId != req.user.sub) {
+        return res.status(401).send({message: 'No tiene permiso para realizar esta acción '});
+    }else{
+        User.findOne({ _id: userId2 }, (err, userFind) => {
+            if (err) {
+                return res.status(500).send({ message: 'Error general al eliminar' });
+            } else if (userFind) {
+                if (userFind.role == 'ROLE_ADMIN' ) {
+                    res.status(403).send({ message: 'No tienes permiso de Actualizar un Usuario Administrador'});
+                } else{
+                    User.findOne({ username: update.username.toLowerCase() }, (err, userFind) => {
+                        update.username = update.username.toLowerCase();
+                        if (err) {
+                            return res.status(500).send({ message: ' Error General' });
+                        } else if (userFind) {
+                            if (userFind._id == userId2) {
+                                User.findByIdAndUpdate(userId2, update, { new: true }, (err, userUpdate) => {
+                                    if (err) {
+                                        return res.status(500).send({ message: 'Error General' });
+                                    } else if (userUpdate) {
+                                        return res.send({ message: 'Usuario Actualizado Correctamente', userUpdate });
+                                    } else {
+                                        return res.status(401).send({ message: 'No se pudo actualizar el usuario' });
+                                    }
+                                });
+                            } else {
+                                return res.status(401).send({ message: 'Nombre de Usuario ya esta en Uso' });
+                            }
+    
+                        } else {
+                            User.findByIdAndUpdate(userId2, update, { new: true }, (err, userUpdate) => {
+                                if (err) {
+                                    return res.status(500).send({ message: 'Error General' });
+                                } else if (userUpdate) {
+                                    return res.send({ message: 'Usuario Actualizado Correctamente', userUpdate });
+                                } else {
+                                    return res.status(401).send({ message: 'No se pudo actualizar el usuario' });
+                                }
+                            });
+                        }
+                    })
+                }
+
+            } else {
+                return res.status(403).send({ message: 'Usuario no Encontrado' });
+            }
+        });
+
+    }
+}
+
 /* Buscar */
 function search(req, res) {
     var params = req.body;
@@ -347,6 +438,7 @@ module.exports = {
     saveUserByAdmin,
     uploadImageUser,
     getImage,
-    andmin
-
+    andmin,
+    deleteUserAdmin,
+    UpdateUserAdmin
 }

@@ -85,6 +85,15 @@ export class RestUserService {
     .pipe(map(this.extractData))
   }
 
+  deleteUserAdmin(idUser, idUser2){
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.getToken()
+    });
+    return this.http.put(this.uri+idUser + '/deleteUserAdmin/' + idUser2._id, null, {headers:headers})
+    .pipe(map(this.extractData))
+  }
+
   updateUser(userToUpdate){
     let params = JSON.stringify(userToUpdate);
     let headers = new HttpHeaders({
@@ -92,6 +101,16 @@ export class RestUserService {
       'Authorization': this.getToken()
     });
     return this.http.put(this.uri+'updateUser/'+userToUpdate._id, params, {headers:headers})
+    .pipe(map(this.extractData))
+  }
+
+  updateUserAdmin(idUser,userToUpdate){
+    let params = JSON.stringify(userToUpdate);
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.getToken()
+    });
+    return this.http.put(this.uri+idUser + '/UpdateUserAdmin/'+userToUpdate._id, params, {headers:headers})
     .pipe(map(this.extractData))
   }
 

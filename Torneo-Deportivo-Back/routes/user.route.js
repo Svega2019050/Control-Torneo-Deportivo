@@ -22,6 +22,8 @@ api.get('/getImage/:fileName', [upload], userController.getImage);
 /* Put*/
 api.put('/updateUser/:userId', [mdAuth.ensureAuth], userController.updateUser);
 api.put('/removeUser/:userId', [mdAuth.ensureAuth], userController.removeUser);
+api.put('/:userId/deleteUserAdmin/:userId2', [mdAuth.ensureAuth, mdAuth.ensureAuthAdmin], userController.deleteUserAdmin);
+api.put('/:userId/UpdateUserAdmin/:userId2', [mdAuth.ensureAuth, mdAuth.ensureAuthAdmin], userController.UpdateUserAdmin);
 api.put('/:userId/uploadImageUser', [mdAuth.ensureAuth, upload], userController.uploadImageUser);
 
 
