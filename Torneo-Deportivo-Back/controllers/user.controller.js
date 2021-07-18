@@ -177,7 +177,7 @@ function updateUser(req, res) {
     if (userId != req.user.sub) {
         return res.status(401).send({ message: 'No tiene permiso para realizar esta acción ' });
     } else {
-        if (update.password || update.role) {
+        if (update.password ) {
             return res.status(401).send({ message: 'No se puede actualizar la contraseña, y tampoco el rol' });
         } else {
             if (update.username) {
@@ -305,34 +305,55 @@ function saveUserByAdmin(req, res) {
 function deleteUserAdmin(req, res) {
     var userId = req.params.userId;
     var userId2 = req.params.userId2;
-    var payload = req.user;
+    var params = req.body;
 
     if (userId != req.user.sub) {
         return res.status(401).send({message: 'No tiene permiso para realizar esta acción '});
     }else{
-
-        User.findOne({ _id: userId2 }, (err, userFind) => {
+        User.findById(userId,(err, user1Find)=>{
             if (err) {
-                return res.status(500).send({ message: 'Error general al eliminar' });
-            } else if (userFind) {
-                if (userFind.role == 'ROLE_ADMIN' ) {
-                    return res.status(403).send({ message: 'No tienes permiso de eliminar un Usuario Administrador'});
-                } else{
-                    User.findByIdAndRemove(userId2, (err, userRemoved) => {
-                        if (err) {
-                            return res.status(500).send({ message: 'Error general al eliminar' });
-                        } else if (userRemoved) {
-                            return res.send({ message: 'Usuario eliminado', userRemoved });
-                        } else {
-                            return res.status(403).send({ message: 'Usuario no eliminado' });
+                return res.status(500).send({message: 'Error General',err});
+            }else if(user1Find) {
+                User.findOne({ _id: userId2 }, (err, userFind) => {
+                    if (err) {
+                        return res.status(500).send({ message: 'Error general al eliminar' });
+                    } else if (userFind) {
+                        if (userFind.role == 'ROLE_ADMIN' ) {
+                            return res.status(403).send({ message: 'No tienes permiso de eliminar un Usuario Administrador'});
+                        } else{
+                            bcrypt.compare(params.password, user1Find.password, (err, checkPassword) => {
+                                if (err) { 
+                                    return res.status(500).send({ message: 'Error general al verificar contraseña' });
+                                } else if (checkPassword) {
+        
+                                    User.findByIdAndRemove(userId2, (err, userRemoved) => {
+                                        if (err) {
+                                            return res.status(500).send({ message: 'Error general al eliminar' });
+                                        } else if (userRemoved) {
+                                            return res.send({ message: 'Usuario eliminado', userRemoved });
+                                        } else {
+                                            return res.status(403).send({ message: 'Usuario no eliminado' });
+                                        }
+                                    })
+        
+                                } else {
+                                    return res.status(401).send({ message: 'Contraseña incorrecta, no puedes eliminar Una cuenta sin tu contraseña' });
+                                }
+                            })
+        
                         }
-                    })
-                }
-
+        
+                    } else {
+                        return res.status(403).send({ message: 'Usuario no Encontrado' });
+                    }
+                });
             } else {
-                return res.status(403).send({ message: 'Usuario no Encontrado' });
+                return res.status(500).send({message: 'NO hay Usuario'});
             }
-        });
+        })
+
+ 
+
 
     }
 }

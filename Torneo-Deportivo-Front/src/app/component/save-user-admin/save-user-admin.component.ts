@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../models/user';
 import { RestUserService } from '../../services/restUser/rest-user.service';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-save-user-admin',
   templateUrl: './save-user-admin.component.html',
@@ -26,11 +26,20 @@ export class SaveUserAdminComponent implements OnInit {
   onSubmit(statusForm){
     this.restUser.saverUserByAdmin(this.user, this.userLogg._id).subscribe((res:any)=>{
       if(res.userSaved){
-        alert(res.message);
         this.user = new User('','','','','','','','','', []);
         statusForm.reset();
+        Swal.fire({       
+          icon: 'success',
+          title: 'Usuario Guardado Correctamente',
+          showConfirmButton: false,
+          timer: 1500
+        })
       }else{
-        alert(res.message)
+        Swal.fire({
+          icon: 'error',
+          title: 'Lo sentimos...',
+          text: 'Nombre de Usuaio Ya en Uso'
+        })
       }
     },
     error=> alert(error.error.message))

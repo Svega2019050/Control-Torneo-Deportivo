@@ -4,7 +4,7 @@ import { RestUserService } from '../../services/restUser/rest-user.service';
 import { Router } from '@angular/router';
 import { UploadUserService } from '../../services/uploadUser/upload-user.service';
 import { CONNECTION } from '../../services/globa.service';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-edit-user',
   templateUrl: './edit-user.component.html',
@@ -33,7 +33,6 @@ export class EditUserComponent implements OnInit {
   
   onSubmit(){
     delete this.user.password;
-    delete this.user.role;
     this.restUser.updateUser(this.user).subscribe((res:any)=>{
       if(res.userUpdated){
         
@@ -43,9 +42,14 @@ export class EditUserComponent implements OnInit {
 
       }else{     
         localStorage.setItem('user', JSON.stringify(this.user));
-        this.user = this.restUser.getUser();
-        location.reload()        
-        alert(res.message);
+        this.user = this.restUser.getUser();    
+        Swal.fire({       
+          icon: 'success',
+          title: 'Usuario Actualizado Correctamente',
+          showConfirmButton: false,
+          timer: 1500
+        })   
+
       }
     },
     error=> alert(error.error.message))

@@ -85,12 +85,12 @@ export class RestUserService {
     .pipe(map(this.extractData))
   }
 
-  deleteUserAdmin(idUser, idUser2){
+  deleteUserAdmin(idUser, idUser2,password){
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.getToken()
     });
-    return this.http.put(this.uri+idUser + '/deleteUserAdmin/' + idUser2._id, null, {headers:headers})
+    return this.http.put(this.uri+idUser + '/deleteUserAdmin/' + idUser2._id, {password: password}, {headers:headers})
     .pipe(map(this.extractData))
   }
 

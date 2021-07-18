@@ -1,62 +1,45 @@
-.raise:hover,
-.raise:focus {
-  box-shadow: 5px 10px rgb(64, 72, 69);
-  transform: translateY(-0.25em);
+
+.main-box{
+    width: 15rem;
+    max-width: 50%;
+    height: auto;
+    box-shadow: 2px 4px 2px 4px rgba(47, 150, 102, 0.65);
+    border-radius: 10px;
+    text-align: center;
+    background-color: #dae4e0;
+    padding: 20px 0;
+    display: inline-block;
+    margin: 1rem;
 }
 
-h5 {
-  margin-top: 1rem;
-}
-
-.raise{
-    margin-left: 1rem;
-}
-.titulo-principal{
-  text-transform: uppercase;
-}
-
-#cards{
-  margin: 1rem;
+.big-circle{
+    width: 150px;
+    height: 150px;
+    border: 10px solid #46E097;
+    border-radius: 50%;
+    margin: auto;
+    position: relative;
 }
 
 
-.imagen{
-  background-color: rgb(182, 226, 150);
-  width: 100%;
-  max-width: 15rem;
-  display: inline-block;
-  margin: 1rem;  
-  background-size: cover;
-  border-radius: 1rem;
-  
+.heading-name{
+  margin: 1.5rem;   
 }
 
-.img{
-  border-radius: 1rem 1rem 0 0;
-  height: 10rem;
-  width: 100%;
-  max-width: 15rem;
-  background-size: cover;
+
+.follow_btn{
+    
+    background: #46E097;
+    color: #fff;
+    padding: 0.5rem 1.5rem;
+    border-radius: 20px;
+    margin: 1rem;
+    font-size: 1.5rem;
+    box-shadow: 2px 2px 1px 1px rgba(31, 92, 64, 0.65);
 }
 
-.card-title{
-  font-size: 1.5rem;
-  font-family: 'Merienda One', cursive;
-  border-radius: .5rem;
-  padding: 0.3rem;
-  text-transform: uppercase;
-}
-a i{
-
-  padding: 1rem;
-  font-size: 2rem;
-  border-radius: .5rem;
-}
-.button{
-  display: flex;
-  justify-content: space-between;
-}
-.mb-2{
-  font-size: 1rem;
-  padding: 0.5rem 2rem;
+.follow_btn:hover{
+    color: #46E097;
+    background: #DAF9F6;
+    font-weight: 600;
 }

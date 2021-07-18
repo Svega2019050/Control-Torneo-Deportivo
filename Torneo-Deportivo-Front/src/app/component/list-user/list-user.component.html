@@ -1,33 +1,22 @@
 <div class="rounded container p-3 my-3 borderr">
   <h1 class="titulo-principal">Usuarios</h1>
 
-    <div id="cards">
-        <div class="card imagen text-center" *ngFor="let user of users ">
-            <img *ngIf="user.image != null || user.image != undefined" class=" img" src="{{uri+'getImage/'+user.image}}" />
-            <img *ngIf="user.image == null " class="img" src="../../../assets/img/editUserDefault.png" />
 
-            <div class="card-body">
-                
-                <h5 class="card-title text-center">{{user.username}}</h5>
+  <div class="main-box"  *ngFor="let user of users ">
+    <img *ngIf="user.image != null || user.image != undefined" class="big-circle" src="{{uri+'getImage/'+user.image}}" />
+    <img *ngIf="user.image == null " class="big-circle" src="../../../assets/img/editUserDefault.png" />
+    
+    <h2 class="heading-name">{{user.username}}</h2>
 
-                <div class="button">
-                    <button type="button" class="btn btn-danger" (click)="obtenerData(user)" data-toggle="modal" data-target="#eliminarModal">
-                        Eliminar 
-                    </button>
+     
+    <a class="follow_btn" (click)="obtenerData(user)" data-toggle="modal" data-target="#actualizarModal"><i class="far fa-edit raise"></i></a>
+    <a class="follow_btn" (click)="obtenerData(user)" data-toggle="modal" data-target="#eliminarModal"><i class="far fa-trash-alt raise text-danger"></i></a>
+  </div>
 
-                    <button type="button" class="btn btn-primary" (click)="obtenerData(user)" data-toggle="modal" data-target="#actualizarModal">
-                        Editar 
-                    </button>         
-                </div>        
-            </div>
-    
-        </div>
-    
-    </div>
-    
+
     <!-- MODAL PARA ELIMINAR CUENTA -->
-    <div class="modal fade" id="eliminarModal" tabindex="-1" aria-labelledby="eliminarModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
+    <div class="modal fade" id="eliminarModal" tabindex="-1" aria-labelledby="eliminarModalLabel" aria-hidden="true" *ngIf="userSelected.role != 'ROLE_ADMIN'">
+        <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="eliminarModalLabel">Peligro!</h5>
@@ -35,15 +24,17 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body ">
-              <form #formRemove="ngForm" class="text-center">
-                <h5 class="text-center mb-3 card-title" >{{userSelected.username}}</h5>
+            <div class="modal-body  text-center">
 
-                <span class="text-danger text-center" *ngIf="userSelected.role != 'ROLE_ADMIN'">Estas Seguro de Eliminar la cuenta! </span>                
-                <span class="text-primary text-center mb-5" *ngIf="userSelected.role == 'ROLE_ADMIN'" >No tienes Permiso de eliminar un Usuario Administrador. </span>
-                <h5 class="text-center mb-3">{{userSelected.role}}</h5>
-                
+              <form #formRemove="ngForm">
+                <h5 class="text-center mb-3 card-title" >{{userSelected.username}}</h5>
+                <div class="form-group mx-sm-3 mb-2 ">
+                  <span class="text-danger text-center">Estas Seguro de Eliminar la cuenta! </span> <br>
+                  <label for="passwordRemove" ></label>
+                  <input  [(ngModel)]="possiblePass" name="possiblePass" type="password" class="form-control" id="possiblePass" aria-describedby="possiblePass" placeholder="Contraseña" required>
+                </div>
               </form>
+
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -54,7 +45,7 @@
     </div>
 
     <!--Modal Para Actualizar Cuenta-->
-    <div class="modal fade" id="actualizarModal" tabindex="-1" aria-labelledby="actualizarModalLabel" aria-hidden="true">
+    <div class="modal fade" id="actualizarModal" tabindex="-1" aria-labelledby="actualizarModalLabel" aria-hidden="true" *ngIf="userSelected.role != 'ROLE_ADMIN'">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
@@ -66,8 +57,7 @@
           <div class="modal-body text-center ">
 
             <h5 class="text-center mb-3 card-title" >{{userSelected.username}}</h5>
-
-            <form class="form-signin" #updateUser="ngForm"*ngIf="userSelected.role != 'ROLE_ADMIN'" >
+            <form class="form-signin" #updateUser="ngForm">
               <div class="form-row">
                   <div class="col">
                       <div class="form-group">
@@ -119,18 +109,7 @@
 
             </form>
 
-            <div *ngIf="userSelected.role == 'ROLE_ADMIN'" >
-              <span class="text-primary text-center mb-5" >No tienes Permiso de Actualizar un Usuario Administrador. </span>
-              <h5 class="text-center mb-3">{{userSelected.role}}</h5>
-  
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-              </div>
-            </div>
-            
-
-          </div>
-          
+          </div>   
         </div>
       </div>
   </div>
