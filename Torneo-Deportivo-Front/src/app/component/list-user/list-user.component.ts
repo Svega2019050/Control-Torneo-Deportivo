@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DoCheck } from '@angular/core';
 import { CONNECTION } from 'src/app/services/globa.service';
 import { RestUserService } from '../../services/restUser/rest-user.service';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import Swal from 'sweetalert2';
-import { of } from 'rxjs';
+import { error } from '@angular/compiler/src/util';
+
 @Component({
   selector: 'app-list-user',
   templateUrl: './list-user.component.html',
   styleUrls: ['./list-user.component.css']
 })
-export class ListUserComponent implements OnInit {
+export class ListUserComponent implements OnInit ,DoCheck{
   users:[];
   public optionsRole = ['ROLE_ADMIN', 'ROLE_USER'];
   public possiblePass;
@@ -32,10 +33,8 @@ export class ListUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.userSelected = new User('','','','','','','','','',[]);
-    this.token = localStorage.getItem('token');
-    this.user = JSON.parse(localStorage.getItem('user'));
-    this.uri = CONNECTION.URI;
     this.listUsers();
+
   }
 
   ngDoCheck(){
@@ -43,19 +42,19 @@ export class ListUserComponent implements OnInit {
     this.user = this.restUser.getUser();
   }
 
+
   listUsers(){
     this.restUser.getUsers().subscribe((res:any)=>{
       if(res.users){
         this.users = res.users;
-        console.log(this.users)
-      }else{
-        alert(res.message)
       }
     },
-    error=> alert(error.error.message));
-    console.log(this.users)
+    error => {location.reload()}
+    );
+
   }
 
+ 
   obtenerData(user){
     this.userSelected = user;
     if(this.userSelected.role == 'ROLE_ADMIN'){
@@ -97,7 +96,7 @@ export class ListUserComponent implements OnInit {
   }
 
   updateUserAdmin(){
-    this.restUser.updateUserAdmin(this.user._id, this.userSelected).subscribe((res:any)=>{     
+    this.restUser.updateUserAdmin(this.user._id,  this.userSelected).subscribe((res:any)=>{     
         if(res.userUpdated){         
           location.reload()
           alert(res.message);
@@ -106,17 +105,18 @@ export class ListUserComponent implements OnInit {
         }else{     
           localStorage.setItem('user', JSON.stringify(this.user));
           this.user = this.restUser.getUser();
-          
           Swal.fire({       
             icon: 'success',
             title: 'Usuario Actualizado Correctamente',
             showConfirmButton: false,
             timer: 1500
           })
+
           
         }
-    })
-    error => alert(error.error.message);
+    },
+    error => alert(error.error.message))
+   
     
   }
   

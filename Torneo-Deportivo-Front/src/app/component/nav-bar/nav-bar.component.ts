@@ -2,7 +2,6 @@ import { Component, DoCheck, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RestUserService } from 'src/app/services/restUser/rest-user.service';
 import { CONNECTION } from 'src/app/services/globa.service';
-import { Route } from '@angular/compiler/src/core';
 
 @Component({
   selector: 'app-nav-bar',

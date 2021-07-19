@@ -85,7 +85,7 @@ function saveTorne(req, res) {
                         if (err) {
                             return res.status(500).send({ message: 'Error General', err });
                         } else if (torneoFind) {
-                            return res.send({ message: 'Nombre de Torneo Ya En uso' });
+                            return res.status(401).send({ message: 'Nombre de Torneo Ya En uso' });
                         } else {
                             if (params.name) {
                                 torneo.name = params.name.toLowerCase();
@@ -337,11 +337,34 @@ function getTorneos(req, res) {
         }
     })
 }
+
+function getTorneoId(req, res) {
+    var torneoId = req.params.torneoId;
+    var userId = req.params.userId;
+    
+    if (userId != req.user.sub) {
+        return res.status(401).send({message: 'No tiene permiso para realizar esta acción '});
+    }else{
+        torneoModel.find({_id: torneoId}).populate('equipo').exec((err, torneos) => {
+            if (err) {
+                return res.status(500).send({ message: 'Error general en el servidor' })
+            } else if (torneos) {
+                return res.send({ message: 'torneos',torneos })
+            } else {
+                return res.status(404).send({ message: 'No hay torneos' })
+            }
+        })
+    }
+    
+}
+
+
 module.exports = {
     saveTorne,
     updateTorneo,
     removeTorneo,
     getTorneos,
     uploadImageTorneo,
-    getImageTorneo
+    getImageTorneo,
+    getTorneoId
 };

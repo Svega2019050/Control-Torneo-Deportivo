@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../../models/user';
 import { RestUserService } from '../../services/restUser/rest-user.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -32,14 +33,32 @@ export class LoginComponent implements OnInit {
           alert('El token no se generó o capturó de manera correcta');
         }else{
           localStorage.setItem('token', this.token);
-          localStorage.setItem('user', JSON.stringify(this.userLogged));
-          alert('Usuario logeado correctamente');
+          localStorage.setItem('user', JSON.stringify(this.userLogged)); 
+          Swal.fire(
+            'Bienvenido',
+            this.user.username,
+            'success'
+          )
+          
           this.route.navigateByUrl('home');
         }
       }
     },
-    (error:any) => alert(error.error.message)
-    )
+      error =>{
+        if (error.status == 401) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Lo Sentimos...',
+            text: 'Contraseña Incorrecta!'
+          })
+        }else if(error.status == 403){
+          Swal.fire({
+            icon: 'error',
+            title: 'Lo Sentimos...',
+            text: 'Usuario Inexistente!'
+          })
+        }
+      })
   }
 
 }

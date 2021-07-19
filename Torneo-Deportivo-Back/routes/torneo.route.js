@@ -18,5 +18,6 @@ api.get('/getTorneos',torneoController.getTorneos);
 api.put('/:userId/uploadImageTorneo/torneoId:', [mdAuth.ensureAuth,upload], torneoController.uploadImageTorneo);
 
 api.get('/:userId/getImageTorneo/:fileName', [mdAuth.ensureAuth,upload], torneoController.getImageTorneo);
+api.get('/:userId/getTorneoId/:torneoId', [mdAuth.ensureAuth], torneoController.getTorneoId);
 
 module.exports = api;

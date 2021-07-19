@@ -38,7 +38,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-danger " data-dismiss="modal" (click)="deleteUser()" [disabled]="userSelected.role == 'ROLE_ADMIN'">Confirmar</button>
+              <button type="submit" class="btn btn-danger " data-dismiss="modal" (click)="deleteUser()" [disabled]="!formRemove.form.valid">Confirmar</button>
             </div>
           </div>
         </div>
@@ -57,6 +57,7 @@
           <div class="modal-body text-center ">
 
             <h5 class="text-center mb-3 card-title" >{{userSelected.username}}</h5>
+            
             <form class="form-signin" #updateUser="ngForm">
               <div class="form-row">
                   <div class="col">

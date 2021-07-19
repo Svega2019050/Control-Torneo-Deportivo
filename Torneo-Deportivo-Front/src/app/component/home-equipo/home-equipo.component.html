@@ -1,191 +1,186 @@
 <div class="rounded container p-3 my-3 border" >
-    <h1 class="titulo-principal">{{torneo.name}}</h1>
-    
-    <div class="body">
+  <h1 class="titulo-principal">{{torneo.name}}</h1>
+  
+  <div class="body">
 
-        <button type="button" class="btn btn-warning raise" routerLink="/home" routerLinkActivate="active" data-toggle="modal" data-target="#" >
-            <i class="fas fa-backward "></i>
-        </button>
+      <button type="button" class="btn btn-warning raise" routerLink="/home" routerLinkActivate="active" data-toggle="modal" data-target="#" >
+          <i class="fas fa-backward "></i>
+      </button>
 
-        <button type="button" class="btn btn-primary raise"  data-toggle="modal" data-target="#equipoModal" >
-            <i class="fas fa-users"></i> Agregar Equipo
-        </button>
+      <button type="button" class="btn btn-primary raise"  data-toggle="modal" data-target="#equipoModal" >
+          <i class="fas fa-users"></i> Agregar Equipo
+      </button>
+      
+      <button type="button" class="btn btn-secondary raise" data-toggle="modal" data-target="#MarcadorModal" >
+          <i class="fas fa-sitemap"></i> Agregar Marcador
+      </button>
+      <button type="button" class="btn btn-info raise"  routerLink="/marcador" routerLinkActivate="active" >
+          <i class="fas fa-chart-bar"></i> Graficas
+      </button>
+  </div>
+
+  <!-- Home -->
+
+  
+  <div id="cards" >
+    <div class="card imagen text-center" *ngFor="let equipo of equipos">
+         <img *ngIf="equipo.imageTorneo == null || torneo.imageTorneo == undefined " class=" img" height="200" src="../../../assets/img/equipo.jpg" />
+        <div class="card-body">
+            
+            <h5 class="card-title text-center">{{equipo.nameEquipo}}</h5>
+            <h5 class="card-title text-center">{{equipo._id}}</h5>
+  
+            <div class="button">
+            <a class="btn " data-toggle="modal" data-target="#updateModal" (click)="obtenerData(equipo)"><i class="far fa-edit raise"></i></a>
+            <a class="btn " data-toggle="modal" data-target="#removeModal" (click)="obtenerData(equipo)"><i class="far fa-trash-alt raise text-danger"></i></a>
+            </div>        
+        </div>
         
-        <button type="button" class="btn btn-secondary raise" data-toggle="modal" data-target="#MarcadorModal" >
-            <i class="fas fa-sitemap"></i> Agregar Marcador
+        <button type="button" class="btn btn-success mb-2 raise" (click)="saveEquipoJugador(equipo)"  aria-current="page" routerLink="/jugador" routerLinkActivate="active" >
+            <i class="far fa-window-restore"></i> Ver
         </button>
-        <button type="button" class="btn btn-info raise"  routerLink="/marcador" routerLinkActivate="active" >
-            <i class="fas fa-chart-bar"></i> Graficas
-        </button>
-    </div>
+  
+    </div> 
+  </div>
 
-    <!-- Home -->
-
-    
-    <div id="cards">
-
-      <div class="card imagen text-center" *ngFor="let equipo of equipos">
-          
-           <img *ngIf="equipo.imageTorneo == null || torneo.imageTorneo == undefined " class=" img" height="200" src="../../../assets/img/equipo.jpg" />
-    
-          <div class="card-body">
-              
-              <h5 class="card-title text-center">{{equipo.nameEquipo}}</h5>
-              <h5 class="card-title text-center">{{equipo._id}}</h5>
-    
-              <div class="button">
-              <a class="btn " data-toggle="modal" data-target="#updateModal" (click)="obtenerData(equipo)"><i class="far fa-edit raise"></i></a>
-              <a class="btn " data-toggle="modal" data-target="#removeModal" (click)="obtenerData(equipo)"><i class="far fa-trash-alt raise text-danger"></i></a>
-              </div>        
-          </div>
-          
-          <button type="button" class="btn btn-success mb-2 raise" (click)="saveEquipoJugador(equipo)"  aria-current="page" routerLink="/jugador" routerLinkActivate="active" >
-              <i class="far fa-window-restore"></i> Ver
-          </button>
-    
-      </div>
-    
-    </div>
-
-    <!-- Modal Agregar -->
-    <div class="modal fade" id="equipoModal" tabindex="-1" role="dialog" aria-labelledby="equipoModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="equipoModalLabel">Nuevo Equipo</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-    
-              <form (ngSubmit)="onSubmit(saveEquipo)" #saveEquipo="ngForm">
-                <div class="mb-3 text-color">
-                  <label for="inputnameEquipo" class="form-label"><i class="fas fa-users"></i> Nombre Equipo</label>
-                  <input  [(ngModel)]="EquipoSelected.nameEquipo" name="nameEquipo" type="text" class="form-control" id="inputnameEquipo" aria-describedby="emailHelp" placeholder="Nombre Equipo" required>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                  <input type="submit" class="btn btn-primary" value="Guardar Torneo" [disabled]="!saveEquipo.form.valid" >
-                </div>
-              </form>
-
-            </div>
-    
-          </div>
-        </div>
-    </div>
-
-    <!--Eliminar-->
-    <div class="modal fade" id="removeModal" tabindex="-1" aria-labelledby="removeModallLabel" aria-hidden="true">
-      <div class="modal-dialog">
-          <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title" id="removeModallLabel">Peligro!</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-              </button>
-          </div>
-          <div class="modal-body">
-              <h4 class="text-center">{{EquipoSelected.nameEquipo}}</h4>
-              <span>Estas Seguro De Eliminar Equipo</span>
-          </div>
-          <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="removeEquipo()">Eliminar</button>
-          </div>
-          </div>
-      </div>
-    </div>
-
-
-    <!--Actualizar-->
-    <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="updateModalLabel">Actualizar</h5>
-            <button type="button"   class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-            <div class="modal-body">
-    
-              <form class="form-signin" #equipo="ngForm">
-                <div class="mb-3 text-color">
-                <label for="nameinput" class="form-label"><i class="fas fa-trophy"></i> Nombre Equipo</label>
-                <input  [(ngModel)]="EquipoSelected.nameEquipo" name="nameEquipo" #nameEquipo="ngModel" type="text" class="form-control" id="nameinput" aria-describedby="nameEquipo" placeholder="Nombre Equipo" required>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary"  data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" [disabled]="!equipo.form.valid" (click)="updateEquipo()"   >Aceptar</button>                  
-                </div>
-            </form>
-
-            </div>
-        </div>
-    </div>
-    </div>
-
-    <!--Marcador-->
-    <div class="modal fade" id="MarcadorModal" tabindex="-1" role="dialog" aria-labelledby="MarcadorModalLabel" aria-hidden="true">
+  <!-- Modal Agregar -->
+  <div class="modal fade" id="equipoModal" tabindex="-1" role="dialog" aria-labelledby="equipoModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="MarcadorModalLabel">Nuevo Marcador</h5>
+            <h5 class="modal-title" id="equipoModalLabel">Nuevo Equipo</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-
-            <form (ngSubmit)="onSubmit2(saveMarcador)" #saveMarcador="ngForm">
-
-              <div class="mb-3 text-color text-center">
-                <label for="inputnameEquipo" class="form-label"><i class="fas fa-clock"></i> Jornada</label>
-                <input  [(ngModel)]="MarcadorSelected.jornada" name="MarcadorSelected" type="number" class="form-control" id="inputnameEquipo" aria-describedby="emailHelp" placeholder="Jornada" required>
+  
+            <form (ngSubmit)="onSubmit(saveEquipo)" #saveEquipo="ngForm">
+              <div class="mb-3 text-color">
+                <label for="inputnameEquipo" class="form-label"><i class="fas fa-users"></i> Nombre Equipo</label>
+                <input  [(ngModel)]="EquipoSelected.nameEquipo" name="nameEquipo" type="text" class="form-control" id="inputnameEquipo" aria-describedby="emailHelp" placeholder="Nombre Equipo" required>
               </div>
-          
-              <div class="row">
-          
-                  <div class="mb-3 text-color col">
-                      <label for="inputnameEquipo1" class="form-label"><i class="fas fa-users"></i> Equipo Uno</label>
-
-                      <input  [(ngModel)]="MarcadorSelected.equipo1" name="MarcadorSelected" type="text" class="form-control" id="inputnameEquipo1" aria-describedby="emailHelp" placeholder="Equipo Uno" required>
-
-                  </div>
-          
-                    
-                  <div class="mb-3 text-color col">
-                      <label for="inputgol1" class="form-label"><i class="fas fa-futbol"></i> Gol De Equipo Uno</label>
-                      <input  [(ngModel)]="MarcadorSelected.golEquipo1" name="MarcadorSelected" type="number" class="form-control" id="inputgol1" aria-describedby="inputgol1" placeholder="Gol De Equipo Uno" required>
-                  </div>
-              </div>
-          
-              <div class="row">
-          
-                  <div class="mb-3 text-color col">
-                      <label for="inputnameEquipo2" class="form-label"><i class="fas fa-users"></i> Equipo Dos</label>
-                      <input  [(ngModel)]="MarcadorSelected.equipo2" name="MarcadorSelected" type="text" class="form-control" id="inputnameEquipo2" aria-describedby="emailHelp" placeholder="Equipo Dos" required>
-
-                  </div>
-          
-                  <div class="mb-3 text-color col">
-                      <label for="inputgol2" class="form-label"><i class="fas fa-futbol"></i> Gol De Equipo Dos</label>
-                      <input  [(ngModel)]="MarcadorSelected.golEquipo2" name="MarcadorSelected" type="number" class="form-control" id="inputgol2" aria-describedby="inputgol2" placeholder="Gol De Equipo Dos" required>
-                  </div>
-              </div>
-          
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary"  data-dismiss="modal">Cancelar</button>
-                <input type="submit" class="btn btn-primary" value="Guardar Torneo" [disabled]="!saveMarcador.form.valid" >
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <input type="submit" class="btn btn-primary" value="Guardar Torneo" [disabled]="!saveEquipo.form.valid" >
               </div>
             </form>
-          </div>
 
+          </div>
+  
         </div>
       </div>
+  </div>
+
+  <!--Eliminar-->
+  <div class="modal fade" id="removeModal" tabindex="-1" aria-labelledby="removeModallLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="removeModallLabel">Peligro!</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <h4 class="text-center">{{EquipoSelected.nameEquipo}}</h4>
+            <span>Estas Seguro De Eliminar Equipo</span>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="removeEquipo()">Eliminar</button>
+        </div>
+        </div>
     </div>
+  </div>
+
+
+  <!--Actualizar-->
+  <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="modal-title" id="updateModalLabel">Actualizar</h5>
+          <button type="button"   class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+          <div class="modal-body">
+  
+            <form class="form-signin" #equipo="ngForm">
+              <div class="mb-3 text-color">
+              <label for="nameinput" class="form-label"><i class="fas fa-trophy"></i> Nombre Equipo</label>
+              <input  [(ngModel)]="EquipoSelected.nameEquipo" name="nameEquipo" #nameEquipo="ngModel" type="text" class="form-control" id="nameinput" aria-describedby="nameEquipo" placeholder="Nombre Equipo" required>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary"  data-dismiss="modal">Cancelar</button>
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" [disabled]="!equipo.form.valid" (click)="updateEquipo()"   >Aceptar</button>                  
+              </div>
+          </form>
+
+          </div>
+      </div>
+  </div>
+  </div>
+
+  <!--Marcador-->
+  <div class="modal fade" id="MarcadorModal" tabindex="-1" role="dialog" aria-labelledby="MarcadorModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="MarcadorModalLabel">Nuevo Marcador</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <form (ngSubmit)="onSubmit2(saveMarcador)" #saveMarcador="ngForm">
+
+            <div class="mb-3 text-color text-center">
+              <label for="inputnameEquipo" class="form-label"><i class="fas fa-clock"></i> Jornada</label>
+              <input  [(ngModel)]="MarcadorSelected.jornada" name="MarcadorSelected" type="number" class="form-control" id="inputnameEquipo" aria-describedby="emailHelp" placeholder="Jornada" required>
+            </div>
+        
+            <div class="row">
+        
+                <div class="mb-3 text-color col">
+                    <label for="inputnameEquipo1" class="form-label"><i class="fas fa-users"></i> Equipo Uno</label>
+
+                    <input  [(ngModel)]="MarcadorSelected.equipo1" name="MarcadorSelected" type="text" class="form-control" id="inputnameEquipo1" aria-describedby="emailHelp" placeholder="Equipo Uno" required>
+
+                </div>
+        
+                  
+                <div class="mb-3 text-color col">
+                    <label for="inputgol1" class="form-label"><i class="fas fa-futbol"></i> Gol De Equipo Uno</label>
+                    <input  [(ngModel)]="MarcadorSelected.golEquipo1" name="MarcadorSelected" type="number" class="form-control" id="inputgol1" aria-describedby="inputgol1" placeholder="Gol De Equipo Uno" required>
+                </div>
+            </div>
+        
+            <div class="row">
+        
+                <div class="mb-3 text-color col">
+                    <label for="inputnameEquipo2" class="form-label"><i class="fas fa-users"></i> Equipo Dos</label>
+                    <input  [(ngModel)]="MarcadorSelected.equipo2" name="MarcadorSelected" type="text" class="form-control" id="inputnameEquipo2" aria-describedby="emailHelp" placeholder="Equipo Dos" required>
+
+                </div>
+        
+                <div class="mb-3 text-color col">
+                    <label for="inputgol2" class="form-label"><i class="fas fa-futbol"></i> Gol De Equipo Dos</label>
+                    <input  [(ngModel)]="MarcadorSelected.golEquipo2" name="MarcadorSelected" type="number" class="form-control" id="inputgol2" aria-describedby="inputgol2" placeholder="Gol De Equipo Dos" required>
+                </div>
+            </div>
+        
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary"  data-dismiss="modal">Cancelar</button>
+              <input type="submit" class="btn btn-primary" value="Guardar Torneo" [disabled]="!saveMarcador.form.valid" >
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
 
 </div>
-

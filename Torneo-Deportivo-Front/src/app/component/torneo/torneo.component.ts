@@ -1,10 +1,10 @@
 import { Component, OnInit ,DoCheck} from '@angular/core';
-import { Router } from '@angular/router';
 import { CONNECTION } from 'src/app/services/globa.service';
 import { RestUserService } from '../../services/restUser/rest-user.service';
 import { UploadTorneoService } from '../../services/uploadTorneo/upload-torneo.service';
 import { Torneo } from '../../models/torneo';
 import {RestTorneoService} from '../../services/restTorneo/rest-torneo.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-torneo',
@@ -15,20 +15,24 @@ export class TorneoComponent implements OnInit,DoCheck {
   torneos:[];
   public TorneoSelected: Torneo;
   torneo;
-
+  torneo2: Torneo;
+  message;
   public filesToUpload:Array<File>;
   token;
   user;
   uri;
 
-  constructor(private router: Router, private restUser:RestUserService,
-    private restTorneo:RestTorneoService, private uploadTorneo: UploadTorneoService) { }
+  constructor(private restUser:RestUserService,
+    private restTorneo:RestTorneoService, private uploadTorneo: UploadTorneoService) { 
+      this.torneo2 = new Torneo('','','',[],[]);
+  }
 
   ngOnInit(): void {
     this.TorneoSelected = new Torneo('','','',[],[]);
     localStorage.removeItem('selectedTorneo');
     this.uri = CONNECTION.URI;
     this.listTorneo();
+    
   }
   
 
@@ -51,23 +55,56 @@ export class TorneoComponent implements OnInit,DoCheck {
         
       }
     },
-    error=> alert(error.error.message));
+    error => alert(error.error.message));
   }
   
+  saveTorneo(){
+    this.restTorneo.saveTorneo(this.user._id,this.TorneoSelected).subscribe((res:any)=>{
+      if(res.torneoPush){
+        localStorage.setItem('user',JSON.stringify(this.user))
+        this.user = res.torneoPush
+        Swal.fire({       
+          icon: 'success',
+          title: 'Torneo Guardado Correctamente',
+          showConfirmButton: false,
+          timer: 1500,         
+        });  
+      }
+      this.listTorneo();
+    },error =>{
+      if (error.status == 401) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Lo sentimos...',
+          text: 'Nombre de Torneo ya en uso'        
+        })
+      }
+    })
+  }
+
   updateTorneo(){
     this.restTorneo.updateTorneo(this.user._id, this.TorneoSelected).subscribe((res:any)=>{
       if (res.message) {
-        alert(res.message);
         localStorage.setItem('user',JSON.stringify(this.user));
-       
-      } else {
-        alert(res.message);    
-        this.user = this.restUser.getUser();
-        this.torneos = this.user.torneos;  
-        location.reload()
+        Swal.fire({       
+          icon: 'success',
+          title: 'Torneo Actualizado Correctamente',
+          showConfirmButton: false,
+          timer: 1500,         
+        });  
+      } 
+     
+    },
+    error => {
+      if (error.status == 401) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Lo sentimos...',
+          text: 'Nombre de Torneo ya en uso'        
+        })
       }
     })
-    error =>alert(error.error.message)
+    this.listTorneo();
   }
   
   removeTorneo(){
@@ -78,11 +115,17 @@ export class TorneoComponent implements OnInit,DoCheck {
           this.user = this.restUser.getUser();
           this.torneos = this.user.torneos;
       } else {
-        alert(res.message)
+        Swal.fire({       
+          icon: 'success',
+          title: 'Torneo Eliminado Correctamente',
+          showConfirmButton: false,
+          timer: 1500,         
+        });  
       }
       this.listTorneo();
-    })
-    error => alert(error.error.message)
+    },
+    error => alert(error.error.message))
+    
   }
 
   

@@ -40,9 +40,11 @@ export class HomeEquipoComponent implements OnInit {
     this.MarcadorSelected = new Marcador('','','','',[],[]);
     this.EquipoSelected = new Equipo('','','','',[]);
     this.torneo = JSON.parse(localStorage.getItem('selectedTorneo'));
+    this.user = JSON.parse(localStorage.getItem('user'));
     this.uri = CONNECTION.URI;
     localStorage.removeItem('selectedEquipo');
-    this.listEquipo(); 
+    
+    this.listEquipo();
   }
 
   ngDoCheck(){
@@ -171,5 +173,14 @@ export class HomeEquipoComponent implements OnInit {
     
     console.log("equipo", marcador);
     // para ingresar torneo en el local storage
+  }
+
+  listEquiposTorneo(){
+    this.restTorneo.getTorneoId(this.user._id, this.torneo).subscribe((res:any)=>{
+      if(res.getTorneoId){
+        localStorage.setItem('torneo',JSON.stringify(this.torneo));
+        this.torneo = res.getTorneoId;
+      }
+    })
   }
 }

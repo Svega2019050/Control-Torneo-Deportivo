@@ -75,4 +75,12 @@ export class RestTorneoService {
     .pipe(map(this.extractData))
   }
 
+  getTorneoId(idUser,idTorne){
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.restUser.getToken()
+    })
+    return this.http.get(this.uri+idUser+'/getTorneoId/'+idTorne._id, {headers:headers})
+    .pipe(map(this.extractData))
+  }
 }
